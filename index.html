@@ -226,8 +226,17 @@ tr.relegate td{background:rgba(220,50,50,.06)}
         <button class="btn-red" onclick="resetCampaign()">↺ Нова кампанія</button>
       </div>
     </div>
-    <div id="history-list"></div>
-    <div id="history-empty" class="card" style="text-align:center;color:var(--muted);padding:2rem">Ще немає завершених сезонів</div>
+    <div class="tabs" style="margin-bottom:1rem">
+      <button class="tab active" onclick="showHistoryTab('seasons')">Сезони</button>
+      <button class="tab" onclick="showHistoryTab('alltime')">Загальний залік</button>
+      <button class="tab" onclick="showHistoryTab('medals')">Медалі</button>
+    </div>
+    <div id="htab-seasons">
+      <div id="history-list"></div>
+      <div id="history-empty" class="card" style="text-align:center;color:var(--muted);padding:2rem">Ще немає завершених сезонів</div>
+    </div>
+    <div id="htab-alltime" class="hidden"></div>
+    <div id="htab-medals" class="hidden"></div>
   </div>
 </div>
 
@@ -909,7 +918,144 @@ function buildSetupGrid(showPreview=false){
 }
 
 // ── HISTORY ───────────────────────────────────────────────────────────────
-function showHistoryPanel(){prevPhase=currentPhase;renderHistoryList();show('phase-history');}
+function showHistoryPanel(){
+  prevPhase=currentPhase;
+  renderHistoryList();
+  // reset to seasons tab
+  ['seasons','alltime','medals'].forEach(t=>document.getElementById('htab-'+t).classList.toggle('hidden',t!=='seasons'));
+  document.querySelectorAll('#phase-history .tab').forEach((el,i)=>el.classList.toggle('active',i===0));
+  show('phase-history');
+}
+
+function showHistoryTab(name){
+  ['seasons','alltime','medals'].forEach(t=>document.getElementById('htab-'+t).classList.toggle('hidden',t!==name));
+  document.querySelectorAll('#phase-history .tab').forEach((el,i)=>el.classList.toggle('active',['seasons','alltime','medals'][i]===name));
+  if(name==='alltime') renderAllTime();
+  if(name==='medals') renderMedals();
+}
+
+function getAllTeams(){
+  // All 32 teams: PL base + FL base
+  const all = [...new Set([
+    ...BASE_TEAMS.map(t=>t.n),
+    ...BASE_FIRST_LEAGUE.map(t=>t.n),
+    // also include any current teams (in case of name changes)
+    ...teamState.map(t=>t.n),
+    ...firstLeagueState.map(t=>t.n),
+  ])];
+  return all;
+}
+
+function renderAllTime(){
+  if(!seasonHistory.length){
+    document.getElementById('htab-alltime').innerHTML='<div class="card" style="text-align:center;color:var(--muted);padding:2rem">Ще немає завершених сезонів</div>';
+    return;
+  }
+  // Count PL points per team across all seasons
+  const pts={}, played={}, won={}, drawn={}, lost={}, gf={}, ga={};
+  getAllTeams().forEach(n=>{pts[n]=0;played[n]=0;won[n]=0;drawn[n]=0;lost[n]=0;gf[n]=0;ga[n]=0;});
+
+  seasonHistory.forEach(s=>{
+    if(!s.table) return;
+    s.table.forEach(t=>{
+      if(pts[t.n]===undefined){pts[t.n]=0;played[t.n]=0;won[t.n]=0;drawn[t.n]=0;lost[t.n]=0;gf[t.n]=0;ga[t.n]=0;}
+      pts[t.n]+=t.pts||0;
+      played[t.n]+=t.played||0;
+      won[t.n]+=t.won||0;
+      drawn[t.n]+=t.drawn||0;
+      lost[t.n]+=t.lost||0;
+      gf[t.n]+=t.gf||0;
+      ga[t.n]+=t.ga||0;
+    });
+  });
+
+  const sorted = getAllTeams()
+    .filter(n=>pts[n]>0||played[n]>0)
+    .sort((a,b)=>pts[b]-pts[a]||(won[b]-won[a]));
+
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('htab-alltime').innerHTML=`
+    <div class="card">
+      <div class="section-label" style="margin-bottom:12px">Загальний залік · Прем'єр-ліга · Всі сезони</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Враховуються тільки очки здобуті у вищій лізі</div>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Команда</th><th>Сезони</th><th>І</th><th>В</th><th>Н</th><th>П</th><th>ГЗ</th><th>ГП</th><th style="color:var(--yellow)">О</th>
+        </tr></thead>
+        <tbody>${sorted.map((n,i)=>{
+          const gd=(gf[n]||0)-(ga[n]||0);
+          const seasons=seasonHistory.filter(s=>s.table&&s.table.find(t=>t.n===n)).length;
+          const rowCls=i===0?'champion':'';
+          return `<tr class="${rowCls}">
+            <td style="font-size:12px;color:var(--muted)">${medals[i]||i+1}</td>
+            <td><div class="team-cell">${logoImg(n,18)}<span>${n}</span></div></td>
+            <td style="color:var(--muted);font-size:12px">${seasons}</td>
+            <td>${played[n]||0}</td>
+            <td>${won[n]||0}</td>
+            <td>${drawn[n]||0}</td>
+            <td>${lost[n]||0}</td>
+            <td>${gf[n]||0}</td>
+            <td>${ga[n]||0}</td>
+            <td class="pts-cell">${pts[n]||0}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderMedals(){
+  if(!seasonHistory.length){
+    document.getElementById('htab-medals').innerHTML='<div class="card" style="text-align:center;color:var(--muted);padding:2rem">Ще немає завершених сезонів</div>';
+    return;
+  }
+  const gold={}, silver={}, bronze={};
+  getAllTeams().forEach(n=>{gold[n]=0;silver[n]=0;bronze[n]=0;});
+
+  seasonHistory.forEach(s=>{
+    if(!s.podium) return;
+    const [g,sv,br]=s.podium;
+    if(g){if(gold[g]===undefined)gold[g]=0; gold[g]++;}
+    if(sv){if(silver[sv]===undefined)silver[sv]=0; silver[sv]++;}
+    if(br){if(bronze[br]===undefined)bronze[br]=0; bronze[br]++;}
+  });
+
+  const allWithMedals=getAllTeams().filter(n=>(gold[n]||0)+(silver[n]||0)+(bronze[n]||0)>0);
+  allWithMedals.sort((a,b)=>{
+    const score=n=>(gold[n]||0)*100+(silver[n]||0)*10+(bronze[n]||0);
+    return score(b)-score(a);
+  });
+
+  if(!allWithMedals.length){
+    document.getElementById('htab-medals').innerHTML='<div class="card" style="text-align:center;color:var(--muted);padding:2rem">Ще немає нагороджених команд</div>';
+    return;
+  }
+
+  document.getElementById('htab-medals').innerHTML=`
+    <div class="card">
+      <div class="section-label" style="margin-bottom:12px">Таблиця медалей · Прем'єр-ліга</div>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Команда</th>
+          <th style="color:#f5d020">🥇</th>
+          <th style="color:#aaaaaa">🥈</th>
+          <th style="color:#cd7f32">🥉</th>
+          <th style="color:var(--muted)">Всього</th>
+        </tr></thead>
+        <tbody>${allWithMedals.map((n,i)=>{
+          const total=(gold[n]||0)+(silver[n]||0)+(bronze[n]||0);
+          const rowCls=(gold[n]||0)>0&&i===0?'champion':'';
+          return `<tr class="${rowCls}">
+            <td style="font-size:12px;color:var(--muted)">${i+1}</td>
+            <td><div class="team-cell">${logoImg(n,18)}<span>${n}</span></div></td>
+            <td style="color:#f5d020;font-weight:700;font-size:15px">${gold[n]||0}</td>
+            <td style="color:#aaaaaa;font-weight:700;font-size:15px">${silver[n]||0}</td>
+            <td style="color:#cd7f32;font-weight:700;font-size:15px">${bronze[n]||0}</td>
+            <td class="pts-cell">${total}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>`;
+}
 function hideHistoryPanel(){show(prevPhase==='phase-final'?'phase-final':prevPhase==='phase-season'?'phase-season':'phase-setup');}
 
 function renderHistoryList(){
