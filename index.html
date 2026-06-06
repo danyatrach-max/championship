@@ -437,6 +437,7 @@ function initStats(){
 // Expected goals based on rating + form + transfer bonus + home advantage
 function effectiveRating(idx){
   const t=teamState[idx];
+  // form: -8..+8 range, transferBonus: extra seasonal boost
   return Math.max(40, Math.min(99, t.r + t.form + t.transferBonus));
 }
 
@@ -503,54 +504,95 @@ function runOffseason(){
   for(let i=0; i<teamState.length; i++){
     const t=teamState[i];
     const isChamp=t.n===champion;
-    const isTop=topFinishers.includes(t.n);
-    // New promoted team: give them slight boost
-    const wasInFL = !sorted.find(s=>s.n===t.n);
+    const isTop=topFinishers.includes(t.n); // top 4
+    const wasInFL = !sorted.find(s=>s.n===t.n); // newly promoted
+    const pos=sorted.findIndex(s=>s.n===t.n); // 0-based finish position
+    const isBottom=pos>=12; // bottom 4 of PL last season
     let changes=[];
 
-    // Transfer window
+    // ── RATING CHANGES (bigger, more realistic) ──────────────────────────
+    // Base drift: every team has natural random variance each season
     let ratingDelta=0;
+
     if(isChamp){
-      ratingDelta=Math.floor(Math.random()*4);
+      // Champion: usually stays strong, small chance of losing key players
+      ratingDelta = Math.random()<0.25 ? -Math.floor(Math.random()*4) : Math.floor(Math.random()*5);
     } else if(wasInFL){
-      ratingDelta=Math.floor(Math.random()*3); // newly promoted: slight boost
+      // Newly promoted: investment, excitement — usually improves
+      ratingDelta = Math.floor(Math.random()*7) - 1; // -1..+6
     } else if(isTop){
-      ratingDelta=Math.floor(Math.random()*3)-1;
+      // Top 4: tend to improve or stay
+      ratingDelta = Math.floor(Math.random()*6) - 1; // -1..+5
+    } else if(isBottom){
+      // Bottom 4: pressure, budget cuts, tend to drop
+      ratingDelta = Math.floor(Math.random()*8) - 6; // -6..+2
     } else {
-      ratingDelta=Math.floor(Math.random()*8)-3;
-    }
-    const newR=Math.max(45,Math.min(97,t.r+ratingDelta));
-    if(newR!==t.r){
-      teamState[i].r=newR;
-      teamState[i].transferBonus=0;
-      const sign=ratingDelta>0?'+':'';
-      const icon=ratingDelta>0?'🟢':'🔴';
-      const desc=ratingDelta>0
-        ? TRANSFER_TEMPLATES[Math.floor(Math.random()*5)](t.n,ratingDelta)
-        : TRANSFER_TEMPLATES[5+Math.floor(Math.random()*2)](t.n,ratingDelta);
-      changes.push({icon,title:`Трансфер: ${t.n}`,desc,delta:sign+ratingDelta,positive:ratingDelta>0});
+      // Mid-table: pure random swing
+      ratingDelta = Math.floor(Math.random()*10) - 4; // -4..+6
     }
 
-    // Coach change
+    // Random "breakout season" chance: any team can get a surprise boost
+    if(Math.random()<0.08){
+      const breakout=Math.floor(Math.random()*8)+3;
+      ratingDelta+=breakout;
+      changes.push({icon:'⚡',title:`Прорив: ${t.n}`,
+        desc:`Несподіване посилення складу. Команда може здивувати цього сезону!`,
+        delta:'+'+breakout,positive:true});
+    }
+    // Random "crisis" chance: any team can collapse
+    if(Math.random()<0.06){
+      const crisis=-(Math.floor(Math.random()*7)+3);
+      ratingDelta+=crisis;
+      changes.push({icon:'📉',title:`Криза: ${t.n}`,
+        desc:`Фінансові проблеми або відхід лідерів. Складний сезон попереду.`,
+        delta:''+crisis,positive:false});
+    }
+
+    const newR=Math.max(48,Math.min(97,t.r+ratingDelta));
+    const actualDelta=newR-t.r;
+    if(actualDelta!==0){
+      teamState[i].r=newR;
+      teamState[i].transferBonus=0;
+      const sign=actualDelta>0?'+':'';
+      const icon=actualDelta>0?'🟢':'🔴';
+      const desc=actualDelta>0
+        ? TRANSFER_TEMPLATES[Math.floor(Math.random()*5)](t.n,actualDelta)
+        : TRANSFER_TEMPLATES[5+Math.floor(Math.random()*2)](t.n,actualDelta);
+      if(!changes.find(c=>c.icon==='⚡'||c.icon==='📉'))
+        changes.push({icon,title:`Трансфер: ${t.n}`,desc,delta:sign+actualDelta,positive:actualDelta>0});
+    }
+
+    // ── COACH CHANGE ─────────────────────────────────────────────────────
     if(t.coaches && t.coaches.length > 1){
-      const coachChance=isChamp?0.05:wasInFL?0.4:0.18;
+      const coachChance=isChamp?0.05:wasInFL?0.35:isBottom?0.45:0.18;
       if(Math.random()<coachChance){
         const nextIdx=(t.coachIdx+1)%t.coaches.length;
         const oldCoach=t.coach;
         teamState[i].coachIdx=nextIdx;
         teamState[i].coach=t.coaches[nextIdx];
-        const effect=Math.floor(Math.random()*6)-2;
-        teamState[i].r=Math.max(45,Math.min(97,teamState[i].r+effect));
+        const effect=Math.floor(Math.random()*7)-3; // -3..+3
+        teamState[i].r=Math.max(48,Math.min(97,teamState[i].r+effect));
         changes.push({icon:'👔',title:`Новий тренер: ${t.n}`,
           desc:`${oldCoach} → ${teamState[i].coach}. ${effect>=0?'Команда оновлюється.':'Перехідний період.'}`,
           delta:effect>=0?'+'+effect:effect,positive:effect>=0});
       }
     }
 
-    // Form bias based on last season finish
-    const pos=sorted.findIndex(s=>s.n===t.n);
-    const formBias=pos>=0&&pos<=3?3:pos>=12?-3:wasInFL?1:0;
-    teamState[i].form=formBias;
+    // ── FORM: based on actual season finish, resets each season ──────────
+    // form now ranges -8..+8 and meaningfully affects match outcomes
+    let newForm = 0;
+    if(pos===0) newForm=8;           // champion: peak confidence
+    else if(pos<=2) newForm=6;       // podium
+    else if(pos<=5) newForm=3;       // top 6
+    else if(pos<=9) newForm=0;       // mid table: neutral
+    else if(pos<=12) newForm=-3;     // lower mid: slight slump
+    else if(pos<=14) newForm=-6;     // near relegation
+    else newForm=-8;                 // last place: crisis form
+    if(wasInFL) newForm=Math.max(newForm, 2); // promoted teams arrive motivated
+    // Add small random noise
+    newForm+=Math.floor(Math.random()*3)-1;
+    newForm=Math.max(-8,Math.min(8,newForm));
+    teamState[i].form=newForm;
 
     changes.forEach(c=>news.push(c));
   }
