@@ -193,6 +193,7 @@ tr.zone-uel td{background:rgba(140,20,60,.09)}
     <div class="tabs" style="margin-top:1rem">
       <button class="tab active" onclick="showFinalTab('table')">Прем'єр-ліга</button>
       <button class="tab" onclick="showFinalTab('fl')">Перша ліга</button>
+      <button class="tab" onclick="showFinalTab('sl')">Друга ліга</button>
       <button class="tab" onclick="showFinalTab('stats')">Статистика</button>
       <button class="tab" onclick="showFinalTab('rounds')">Усі тури</button>
     </div>
@@ -346,6 +347,25 @@ const BASE_FIRST_LEAGUE = [
   {n:'ФК Харків',                       r:47, c:'#003399', coaches:['Юрій Вакуленко','Андрій Купцов']},
 ];
 
+const BASE_SECOND_LEAGUE = [
+  {n:'Нафтовик Охтирка',            r:36, c:'#cc6600', coaches:['Олег Тищенко','Віктор Сердюк']},
+  {n:'Авангард Краматорськ',        r:34, c:'#003399', coaches:['Сергій Малько','Андрій Бондаренко']},
+  {n:'Лівий Берег Київ',            r:33, c:'#006699', coaches:['Михайло Костюк','Ігор Панченко']},
+  {n:'Локомотив Київ',              r:35, c:'#cc0000', coaches:['Валерій Шаран','Сергій Тищенко']},
+  {n:'СК Полтава',                  r:34, c:'#ffffff', coaches:['Олег Дулуб','Микола Павлов']},
+  {n:'ФК Миколаїв',                 r:36, c:'#ffcc00', coaches:['Юрій Сак','Андрій Присяжнюк']},
+  {n:'Кремінь Кременчук',           r:35, c:'#0000cc', coaches:['Олег Федорчук','Ігор Кривенко']},
+  {n:'Полісся Житомир',             r:33, c:'#006600', coaches:['Сергій Гузь','Юрій Мороз']},
+  {n:'Арсенал Харків',              r:34, c:'#ff0000', coaches:['Олексій Чередник','Вадим Мельник']},
+  {n:'Сталь Кам\u2019янське',           r:37, c:'#888888', coaches:['Дмитро Михайленко','Олег Василенко']},
+  {n:'ФК Краматорськ',              r:33, c:'#003366', coaches:['Ігор Рак','Сергій Нечипоренко']},
+  {n:'Поділля Хмельницький',        r:34, c:'#990000', coaches:['Борис Семененко','Михайло Стець']},
+  {n:'Дніпро Черкаси',              r:35, c:'#3399ff', coaches:['Сергій Кириленко','Андрій Логінов']},
+  {n:'ФК Одеса',                    r:36, c:'#000000', coaches:['Олег Венглинський','Роман Григорчук']},
+  {n:'ІгроСервіс Сімферополь',      r:34, c:'#006600', coaches:['Олег Лужний','Сергій Пучков']},
+  {n:'Енергетик Бурштин',           r:33, c:'#ff9900', coaches:['Микола Гришко','Андрій Воробець']},
+];
+
 // ── CAMPAIGN STATE ────────────────────────────────────────────────────────
 // ── LOAD / SAVE FULL GAME STATE ──────────────────────────────────────────
 function loadGameState(){
@@ -363,10 +383,14 @@ function saveGameState(){
   } catch(e){}
 }
 
-const _savedState = loadGameState();
+const _rawSave = loadGameState();
+const _savedState = (_rawSave && Array.isArray(_rawSave.teamState) && Array.isArray(_rawSave.firstLeagueState) && Array.isArray(_rawSave.secondLeagueState)) ? _rawSave : null;
+if(_rawSave && !_savedState){ try{ localStorage.removeItem('ua_champ_state'); }catch(e){} }
+
 let campaignSeason = _savedState ? _savedState.campaignSeason : 1;
 let teamState = _savedState ? _savedState.teamState : BASE_TEAMS.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
 let firstLeagueState = _savedState ? _savedState.firstLeagueState : BASE_FIRST_LEAGUE.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
+let secondLeagueState = _savedState ? _savedState.secondLeagueState : BASE_SECOND_LEAGUE.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
 
 let rounds=[], stats={}, currentRound=0, simulatedUpTo=0;
 let seasonHistory = JSON.parse(localStorage.getItem('ua_champ_history2') || '[]');
@@ -376,6 +400,14 @@ let prevPhase='setup';
 function simFirstLeagueSeason(){
   return firstLeagueState.map(t=>{
     const pts = Math.max(0, Math.round((t.r/55)*55 + (Math.random()*30-15)));
+    return {...t, pts};
+  }).sort((a,b)=>b.pts-a.pts);
+}
+
+// ── SECOND LEAGUE SIMULATION ──────────────────────────────────────────────
+function simSecondLeagueSeason(){
+  return secondLeagueState.map(t=>{
+    const pts = Math.max(0, Math.round((t.r/45)*45 + (Math.random()*28-14)));
     return {...t, pts};
   }).sort((a,b)=>b.pts-a.pts);
 }
@@ -409,11 +441,39 @@ function doPromotionRelegation(plSorted, flSorted, news){
       delta:'+4', positive:true});
   });
 
-  // Safety: keep both leagues at 16
+  // ── FL ↔ SL promotion/relegation ─────────────────────────────────────
+  const flRelTop2 = [flSorted[14], flSorted[15]].filter(Boolean);
+  const slPromTop2 = [_lastSlSorted[0], _lastSlSorted[1]].filter(Boolean);
+
+  flRelTop2.forEach(t=>{
+    const idx = firstLeagueState.findIndex(x=>x.n===t.n);
+    if(idx===-1) return;
+    const team = {...firstLeagueState[idx], r:Math.max(30,firstLeagueState[idx].r-2), form:0, transferBonus:0};
+    secondLeagueState.push(team);
+    firstLeagueState.splice(idx,1);
+    news.push({icon:'⬇️', title:`${t.n} — вилітає до Другої ліги`,
+      desc:`Фінішував в зоні вильоту Першої ліги.`, delta:'-2', positive:false});
+  });
+
+  slPromTop2.forEach((t,pi)=>{
+    const idx = secondLeagueState.findIndex(x=>x.n===t.n);
+    if(idx===-1) return;
+    const team = {...secondLeagueState[idx], r:Math.min(55,secondLeagueState[idx].r+3), form:2, transferBonus:0};
+    firstLeagueState.push(team);
+    secondLeagueState.splice(idx,1);
+    news.push({icon:'⬆️', title:`${t.n} — підвищується до Першої ліги`,
+      desc:`${pi===0?'Переможець':'2-е місце'} Другої ліги!`, delta:'+3', positive:true});
+  });
+
+  // Safety: keep all leagues at 16
   while(teamState.length > 16){ const e=teamState.pop(); firstLeagueState.push({...e,r:Math.max(44,e.r-2),form:0}); }
   while(firstLeagueState.length > 16) firstLeagueState.pop();
+  while(secondLeagueState.length > 16) secondLeagueState.pop();
   while(teamState.length < 16 && firstLeagueState.length > 0){
     const e=firstLeagueState.shift(); teamState.push({...e,r:Math.min(70,e.r+2),form:0});
+  }
+  while(firstLeagueState.length < 16 && secondLeagueState.length > 0){
+    const e=secondLeagueState.shift(); firstLeagueState.push({...e,r:Math.min(55,e.r+2),form:0});
   }
 }
 
@@ -779,8 +839,8 @@ function showSeasonTab(name){
 }
 
 function showFinalTab(name){
-  ['table','fl','stats','rounds'].forEach(t=>document.getElementById('ftab-'+t).classList.toggle('hidden',t!==name));
-  document.querySelectorAll('#phase-final .tab').forEach((el,i)=>el.classList.toggle('active',['table','fl','stats','rounds'][i]===name));
+  ['table','fl','sl','stats','rounds'].forEach(t=>document.getElementById('ftab-'+t).classList.toggle('hidden',t!==name));
+  document.querySelectorAll('#phase-final .tab').forEach((el,i)=>el.classList.toggle('active',['table','fl','sl','stats','rounds'][i]===name));
   if(name==='stats'){
     document.getElementById('ftab-stats').innerHTML='<div class="stat-grid" id="fsg2"></div>';
     renderStats('fsg2');
@@ -801,6 +861,7 @@ function showFinalTab(name){
 // stored so goOffseason can use it
 let _lastSorted = [];
 let _lastFlSorted = [];
+let _lastSlSorted = [];
 
 function finishSeason(){
   const sorted=getSorted();
@@ -809,6 +870,9 @@ function finishSeason(){
   // Simulate First League in background (save result so goOffseason reuses same draw)
   const flSorted = simFirstLeagueSeason();
   _lastFlSorted = flSorted;
+  // Simulate Second League in background
+  const slSorted = simSecondLeagueSeason();
+  _lastSlSorted = slSorted;
   const flWinner = flSorted[0];
   const flRunnerUp = flSorted[1];
 
@@ -855,10 +919,22 @@ function finishSeason(){
   // Render First League table
   const flMedals=['🥇','🥈','🥉'];
   document.getElementById('final-fl-body').innerHTML=flSorted.map((t,i)=>{
+    const promCls=i<2?'champion':i>=14?'relegate':'';
+    const promBadge=i<2?'<span style="font-size:10px;color:#4cde7a;margin-left:3px">⬆</span>'
+                   :i>=14?'<span style="font-size:10px;color:#e06060;margin-left:3px">⬇</span>':'';
+    return `<tr class="${promCls}">
+      <td style="font-size:13px;color:var(--muted)">${flMedals[i]||i+1}${promBadge}</td>
+      <td><div class="team-cell">${logoImg(t.n,20)}<span>${t.n}</span></div></td>
+      <td class="pts-cell">${t.pts}</td>
+    </tr>`;
+  }).join('');
+  // Render Second League table
+  const slMedals=['🥇','🥈','🥉'];
+  document.getElementById('final-sl-body').innerHTML=slSorted.map((t,i)=>{
     const promCls=i<2?'champion':'';
     const promBadge=i<2?'<span style="font-size:10px;color:#4cde7a;margin-left:3px">⬆</span>':'';
     return `<tr class="${promCls}">
-      <td style="font-size:13px;color:var(--muted)">${flMedals[i]||i+1}${promBadge}</td>
+      <td style="font-size:13px;color:var(--muted)">${slMedals[i]||i+1}${promBadge}</td>
       <td><div class="team-cell">${logoImg(t.n,20)}<span>${t.n}</span></div></td>
       <td class="pts-cell">${t.pts}</td>
     </tr>`;
@@ -948,9 +1024,10 @@ function getAllTeams(){
   const all = [...new Set([
     ...BASE_TEAMS.map(t=>t.n),
     ...BASE_FIRST_LEAGUE.map(t=>t.n),
-    // also include any current teams (in case of name changes)
+    ...BASE_SECOND_LEAGUE.map(t=>t.n),
     ...teamState.map(t=>t.n),
     ...firstLeagueState.map(t=>t.n),
+    ...secondLeagueState.map(t=>t.n),
   ])];
   return all;
 }
@@ -1125,7 +1202,8 @@ function resetCampaign(){
   campaignSeason=1;
   teamState=BASE_TEAMS.map(t=>({...t,form:0,coach:t.coaches[0],coachIdx:0,transferBonus:0}));
   firstLeagueState=BASE_FIRST_LEAGUE.map(t=>({...t,form:0,coach:t.coaches[0],coachIdx:0,transferBonus:0}));
-  _lastSorted=[]; _lastFlSorted=[];
+  _lastSorted=[]; _lastFlSorted=[]; _lastSlSorted=[];
+  secondLeagueState=BASE_SECOND_LEAGUE.map(t=>({...t,form:0,coach:t.coaches[0],coachIdx:0,transferBonus:0}));
   localStorage.removeItem('ua_champ_history2');
   localStorage.removeItem('ua_champ_state');
   buildSetupGrid();
