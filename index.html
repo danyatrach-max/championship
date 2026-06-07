@@ -48,6 +48,9 @@ tr:last-child td{border-bottom:none}
 .team-logo-sm{width:18px;height:18px;object-fit:contain;flex-shrink:0}
 tr.champion td{background:rgba(245,208,32,.07)}
 tr.relegate td{background:rgba(220,50,50,.06)}
+tr.zone-ucl td{background:rgba(30,80,220,.10)}
+tr.zone-ucl-q td{background:rgba(30,160,240,.08)}
+tr.zone-uel td{background:rgba(140,20,60,.09)}
 .round-header{display:flex;align-items:center;justify-content:space-between;padding:10px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px}
 .round-title{font-family:var(--font-d);font-size:20px;letter-spacing:.04em;color:var(--yellow)}
 .match-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border);transition:opacity .2s}
@@ -634,10 +637,16 @@ function renderStandings(bodyId){
   const medals=['🥇','🥈','🥉'];
   document.getElementById(bodyId).innerHTML=sorted.map((t,i)=>{
     const gd=t.gf-t.ga;
-    // Places 14-16 highlighted red (3 spots), but only 15-16 actually relegate
-    const cls=i===0?'champion':i>=13?'relegate':'';
-    const zoneBadge=i>=14?'<span style="font-size:10px;color:#e06060;margin-left:3px" title="Вилітає">⬇</span>'
-                   :i===13?'<span style="font-size:10px;color:#e08040;margin-left:3px" title="Зона небезпеки">⚠</span>':'';
+    // Euro zones + relegation
+    const cls = i===0 ? 'zone-ucl'
+              : i===1 ? 'zone-ucl-q'
+              : i<=4  ? 'zone-uel'
+              : i>=13 ? 'relegate' : '';
+    const zoneBadge = i===0  ? '<span style="font-size:10px;color:#4a90e2;margin-left:3px" title="Груповий етап ЛЧ">🏆</span>'
+                    : i===1  ? '<span style="font-size:10px;color:#5bc8f5;margin-left:3px" title="Кваліфікація ЛЧ">⭐</span>'
+                    : i<=4   ? '<span style="font-size:10px;color:#c04070;margin-left:3px" title="Кваліфікація ЛЄ">🅴</span>'
+                    : i>=14  ? '<span style="font-size:10px;color:#e06060;margin-left:3px" title="Вилітає">⬇</span>'
+                    : i===13 ? '<span style="font-size:10px;color:#e08040;margin-left:3px" title="Зона небезпеки">⚠</span>' : '';
     const rf=stats[t.n]?stats[t.n].recentForm:[];
     return `<tr class="${cls}">
       <td style="font-size:13px;color:var(--muted)">${medals[i]||i+1}${zoneBadge}</td>
