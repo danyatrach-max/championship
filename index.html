@@ -1059,23 +1059,43 @@ function importSave(event){
   reader.onload = e => {
     try{
       const data = JSON.parse(e.target.result);
-      if(!data.teamState || !data.firstLeagueState || !data.secondLeagueState){
-        alert('Файл збереження пошкоджений або застарілий.'); return;
+      if(!data.teamState){
+        alert('Файл збереження пошкоджений.'); return;
       }
-      // Apply loaded state
+      // Apply loaded state — with fallbacks for older saves
       campaignSeason = data.campaignSeason || 1;
-      teamState = data.teamState;
-      firstLeagueState = data.firstLeagueState;
-      secondLeagueState = data.secondLeagueState;
+      teamState = data.teamState.map(t=>({
+        ...t,
+        form: t.form||0,
+        coach: t.coach||t.coaches[0],
+        coachIdx: t.coachIdx||0,
+        transferBonus: t.transferBonus||0
+      }));
+      firstLeagueState = (data.firstLeagueState||BASE_FIRST_LEAGUE).map(t=>({
+        ...t,
+        form: t.form||0,
+        coach: t.coach||t.coaches[0],
+        coachIdx: t.coachIdx||0,
+        transferBonus: t.transferBonus||0
+      }));
+      secondLeagueState = (data.secondLeagueState||BASE_SECOND_LEAGUE).map(t=>({
+        ...t,
+        form: t.form||0,
+        coach: t.coach||t.coaches[0],
+        coachIdx: t.coachIdx||0,
+        transferBonus: t.transferBonus||0
+      }));
       seasonHistory = data.seasonHistory || [];
       localStorage.setItem('ua_champ_history2', JSON.stringify(seasonHistory));
       saveGameState();
-      // Reset game to setup screen
+      // Reset round state
       rounds=[]; stats={}; currentRound=0; simulatedUpTo=0;
       _lastSorted=[]; _lastFlSorted=[]; _lastSlSorted=[];
+      // Show setup screen with imported teams
       buildSetupGrid(campaignSeason > 1);
       show('phase-setup');
-      alert(`✅ Збереження завантажено! Сезон ${campaignSeason}`);
+      const yr = 2012 + campaignSeason;
+      alert('✅ Збереження завантажено!\nСезон ' + yr + '/' + String(yr+1).slice(2) + '\nКоманд у лізі: ' + teamState.length);
     } catch(err){
       alert('Помилка читання файлу: ' + err.message);
     }
