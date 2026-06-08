@@ -235,6 +235,8 @@ tr.zone-uel td{background:rgba(140,20,60,.09)}
       <div style="display:flex;gap:8px">
         <button class="btn-red" onclick="deleteAllHistory()">🗑 Очистити архів</button>
         <button class="btn-red" onclick="resetCampaign()">↺ Нова кампанія</button>
+        <button class="btn btn-secondary" onclick="exportSave()" style="font-size:12px;padding:6px 12px">💾 Експорт</button>
+        <label class="btn btn-secondary" style="font-size:12px;padding:6px 12px;cursor:pointer">📂 Імпорт<input type="file" accept=".json" onchange="importSave(event)" style="display:none"></label>
       </div>
     </div>
     <div class="tabs" style="margin-bottom:1rem">
@@ -1032,6 +1034,56 @@ function buildSetupGrid(showPreview=false){
 }
 
 // ── HISTORY ───────────────────────────────────────────────────────────────
+function exportSave(){
+  const saveData = {
+    version: 2,
+    campaignSeason,
+    teamState,
+    firstLeagueState,
+    secondLeagueState,
+    seasonHistory: JSON.parse(localStorage.getItem('ua_champ_history2') || '[]'),
+  };
+  const blob = new Blob([JSON.stringify(saveData, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `championship_save_season${campaignSeason}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importSave(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!data.teamState || !data.firstLeagueState || !data.secondLeagueState){
+        alert('Файл збереження пошкоджений або застарілий.'); return;
+      }
+      // Apply loaded state
+      campaignSeason = data.campaignSeason || 1;
+      teamState = data.teamState;
+      firstLeagueState = data.firstLeagueState;
+      secondLeagueState = data.secondLeagueState;
+      seasonHistory = data.seasonHistory || [];
+      localStorage.setItem('ua_champ_history2', JSON.stringify(seasonHistory));
+      saveGameState();
+      // Reset game to setup screen
+      rounds=[]; stats={}; currentRound=0; simulatedUpTo=0;
+      _lastSorted=[]; _lastFlSorted=[]; _lastSlSorted=[];
+      buildSetupGrid(campaignSeason > 1);
+      show('phase-setup');
+      alert(`✅ Збереження завантажено! Сезон ${campaignSeason}`);
+    } catch(err){
+      alert('Помилка читання файлу: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
 function showHistoryPanel(){
   prevPhase=currentPhase;
   renderHistoryList();
