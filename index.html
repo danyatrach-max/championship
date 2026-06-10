@@ -155,7 +155,9 @@ tr.zone-uel td{background:rgba(140,20,60,.09)}
     </div>
     <div class="tabs">
       <button class="tab active" onclick="showSeasonTab('rounds')">Тури</button>
-      <button class="tab" onclick="showSeasonTab('table')">Таблиця</button>
+      <button class="tab" onclick="showSeasonTab('table')">Прем'єр-ліга</button>
+      <button class="tab" onclick="showSeasonTab('fl')">Перша ліга</button>
+      <button class="tab" onclick="showSeasonTab('sl')">Друга ліга</button>
       <button class="tab" onclick="showSeasonTab('stats')">Статистика</button>
     </div>
     <div id="stab-rounds">
@@ -172,6 +174,20 @@ tr.zone-uel td{background:rgba(140,20,60,.09)}
       <table>
         <thead><tr><th>#</th><th>Команда</th><th>І</th><th>В</th><th>Н</th><th>П</th><th>ГЗ</th><th>ГП</th><th>РГ</th><th>О</th></tr></thead>
         <tbody id="standings-body"></tbody>
+      </table>
+    </div>
+    <div id="stab-fl" class="hidden card">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase">Перша ліга · Поточний сезон</div>
+      <table>
+        <thead><tr><th>#</th><th>Команда</th><th>Рейтинг</th><th>Форма</th></tr></thead>
+        <tbody id="stab-fl-body"></tbody>
+      </table>
+    </div>
+    <div id="stab-sl" class="hidden card">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase">Друга ліга · Поточний сезон</div>
+      <table>
+        <thead><tr><th>#</th><th>Команда</th><th>Рейтинг</th><th>Форма</th></tr></thead>
+        <tbody id="stab-sl-body"></tbody>
       </table>
     </div>
     <div id="stab-stats" class="hidden">
@@ -413,13 +429,18 @@ function saveGameState(){
 }
 
 const _rawSave = loadGameState();
-const _savedState = (_rawSave && Array.isArray(_rawSave.teamState) && Array.isArray(_rawSave.firstLeagueState) && Array.isArray(_rawSave.secondLeagueState)) ? _rawSave : null;
-if(_rawSave && !_savedState){ try{ localStorage.removeItem('ua_champ_state'); }catch(e){} }
 
-let campaignSeason = _savedState ? _savedState.campaignSeason : 1;
-let teamState = _savedState ? _savedState.teamState : BASE_TEAMS.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
-let firstLeagueState = _savedState ? _savedState.firstLeagueState : BASE_FIRST_LEAGUE.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
-let secondLeagueState = _savedState ? _savedState.secondLeagueState : BASE_SECOND_LEAGUE.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
+// Migrate old saves: if teamState exists but FL/SL missing — keep teamState, fill rest from base
+let campaignSeason = (_rawSave && _rawSave.campaignSeason) ? _rawSave.campaignSeason : 1;
+let teamState = (_rawSave && Array.isArray(_rawSave.teamState) && _rawSave.teamState.length)
+  ? _rawSave.teamState
+  : BASE_TEAMS.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
+let firstLeagueState = (_rawSave && Array.isArray(_rawSave.firstLeagueState) && _rawSave.firstLeagueState.length)
+  ? _rawSave.firstLeagueState
+  : BASE_FIRST_LEAGUE.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
+let secondLeagueState = (_rawSave && Array.isArray(_rawSave.secondLeagueState) && _rawSave.secondLeagueState.length)
+  ? _rawSave.secondLeagueState
+  : BASE_SECOND_LEAGUE.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
 
 let rounds=[], stats={}, currentRound=0, simulatedUpTo=0;
 let seasonHistory = JSON.parse(localStorage.getItem('ua_champ_history2') || '[]');
@@ -721,6 +742,35 @@ function formDots(recentForm){
   }).join('')+'</span>';
 }
 
+function renderLeaguePreview(league){
+  const state = league==='fl' ? firstLeagueState : secondLeagueState;
+  const bodyId = league==='fl' ? 'stab-fl-body' : 'stab-sl-body';
+  const sorted = [...state].sort((a,b)=>b.r-a.r);
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById(bodyId).innerHTML = sorted.map((t,i)=>{
+    const isPromo = i<2;
+    const isRel = i>=14;
+    const cls = isPromo?'champion':isRel?'relegate':'';
+    const badge = isPromo
+      ? '<span style="font-size:10px;color:#4cde7a;margin-left:3px">⬆</span>'
+      : isRel
+      ? '<span style="font-size:10px;color:#e06060;margin-left:3px">⬇</span>'
+      : '';
+    const formVal = t.form||0;
+    const formStr = formVal>0
+      ? `<span style="color:#4cde7a;font-weight:700">▲${formVal}</span>`
+      : formVal<0
+      ? `<span style="color:#e06060;font-weight:700">▼${Math.abs(formVal)}</span>`
+      : `<span style="color:var(--muted)">—</span>`;
+    return `<tr class="${cls}">
+      <td style="font-size:12px;color:var(--muted)">${medals[i]||i+1}${badge}</td>
+      <td><div class="team-cell">${logoImg(t.n,18)}<span>${t.n}</span></div></td>
+      <td><span class="rating-badge">${t.r}</span></td>
+      <td>${formStr}</td>
+    </tr>`;
+  }).join('');
+}
+
 function renderStandings(bodyId){
   const sorted=getSorted();
   const medals=['🥇','🥈','🥉'];
@@ -819,6 +869,7 @@ function updateProgress(){
 
 // ── ACTIONS ───────────────────────────────────────────────────────────────
 function startSeason(){
+  saveGameState();
   initStats();
   rounds=generateSchedule();
   simulatedUpTo=0;
@@ -908,6 +959,8 @@ function finishSeason(){
   const record={
     season:campaignSeason,
     seasonYear: (2012+campaignSeason) + '/' + String(2013+campaignSeason).slice(2),
+    flSnapshot: [...firstLeagueState].sort((a,b)=>b.r-a.r).map(t=>({n:t.n,r:t.r,form:t.form||0})),
+    slSnapshot: [...secondLeagueState].sort((a,b)=>b.r-a.r).map(t=>({n:t.n,r:t.r,form:t.form||0})),
     date:new Date().toLocaleDateString('uk-UA'),
     winner:winner.n,
     podium:sorted.slice(0,3).map(t=>t.n),
@@ -1001,6 +1054,7 @@ function goOffseason(){
 
 function closeOffseason(){
   document.getElementById('modal-overlay').classList.add('hidden');
+  saveGameState();
   buildSetupGrid(true);
   show('phase-setup');
 }
@@ -1091,11 +1145,10 @@ function importSave(event){
       // Reset round state
       rounds=[]; stats={}; currentRound=0; simulatedUpTo=0;
       _lastSorted=[]; _lastFlSorted=[]; _lastSlSorted=[];
-      // Show setup screen with imported teams
-      buildSetupGrid(campaignSeason > 1);
-      show('phase-setup');
+      // Save to localStorage and reload page — cleanest way to restore state
       const yr = 2012 + campaignSeason;
-      alert('✅ Збереження завантажено!\nСезон ' + yr + '/' + String(yr+1).slice(2) + '\nКоманд у лізі: ' + teamState.length);
+      alert('✅ Збереження завантажено!\nСезон ' + yr + '/' + String(yr+1).slice(2) + '\nСторінка перезавантажиться.');
+      location.reload();
     } catch(err){
       alert('Помилка читання файлу: ' + err.message);
     }
