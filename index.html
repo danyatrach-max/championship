@@ -284,9 +284,9 @@ tr.zone-uel td{background:rgba(140,20,60,.09)}
 <script>
 const LOGO_URLS = {
   'Динамо Київ': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMDAzZjhhIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JTQmjwvdGV4dD48L3N2Zz4=',
-  'Шахтер Донецьк': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZjc3ZjAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iIzAwMDAwMCI+0KjQlDwvdGV4dD48L3N2Zz4=',
+  'Шахтар Донецьк': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZjc3ZjAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iIzAwMDAwMCI+0KjQlDwvdGV4dD48L3N2Zz4=',
   'Металіст Харків': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjYzhhODAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iIzAwNDA4MCI+0JzQpTwvdGV4dD48L3N2Zz4=',
-  'Дніпро': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMWE2ZmM0IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JTQnTwvdGV4dD48L3N2Zz4=',
+  'ФК Дніпро': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMWE2ZmM0IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JTQnTwvdGV4dD48L3N2Zz4=',
   'Чорноморець Одеса': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMDAzODY1IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0KfQnjwvdGV4dD48L3N2Zz4=',
   'Ворскла Полтава': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMDA2NjIyIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JLQnzwvdGV4dD48L3N2Zz4=',
   'Металург Донецьк': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjOGIwMDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JzQlDwvdGV4dD48L3N2Zz4=',
@@ -294,7 +294,7 @@ const LOGO_URLS = {
   'Таврія Сімферополь': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMWEzZmM0IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0KLQoTwvdGV4dD48L3N2Zz4=',
   'Металург Запоріжжя': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjNDQ0NDQ0IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JzQlzwvdGV4dD48L3N2Zz4=',
   'Кривбас Кривий Ріг': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjY2MwMDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JrQmjwvdGV4dD48L3N2Zz4=',
-  'Заря Луганськ': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZmY0NDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JfQmzwvdGV4dD48L3N2Zz4=',
+  'Зоря Луганськ': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZmY0NDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JfQmzwvdGV4dD48L3N2Zz4=',
   'Арсенал Київ': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZDQwMDJkIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZmZmZiI+0JDQmjwvdGV4dD48L3N2Zz4=',
   'ПФК Олександрія': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZmY4ODAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iIzAwMzM2NiI+0J7QmzwvdGV4dD48L3N2Zz4=',
   'Маріуполь': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMDA1N2I4IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHRleHQgeD0iNTAiIHk9IjY4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2Y1ZDAyMCI+0JzQkDwvdGV4dD48L3N2Zz4=',
@@ -354,42 +354,42 @@ function logoImg(name, size=22) {
 
 // ── BASE TEAMS ────────────────────────────────────────────────────────────
 const BASE_TEAMS = [
-  {n:'Динамо Київ',       r:90, c:'#003f8a', coaches:['Олег Блохін','Сергій Ребров','Михайло Фоменко']},
-  {n:'Шахтер Донецьк',    r:95, c:'#f77f00', coaches:['Мірча Луческу','Паулу Фонсека','Роберто Де Дзербі']},
-  {n:'Металіст Харків',   r:80, c:'#c8a800', coaches:['Мирон Маркевич','Олексій Баль','Ігор Рахаєв']},
-  {n:'Дніпро',            r:78, c:'#1a6fc4', coaches:['Хуанде Рамос','Маркос Пакета','Дмитро Михайленко']},
-  {n:'Чорноморець Одеса', r:65, c:'#003865', coaches:['Роман Григорчук','Сергій Пучков','Владислав Геращенко']},
-  {n:'Ворскла Полтава',   r:63, c:'#006622', coaches:['Василь Сачко','Олексій Єрьоменко','Микола Павлов']},
-  {n:'Металург Донецьк',  r:70, c:'#8b0000', coaches:['Сергій Кандауров','Олег Лутков','Микола Костов']},
-  {n:'Волинь Луцьк',      r:58, c:'#d4a000', coaches:['Віталій Кварцяний','Андрій Гордєєв','Сергій Ковалець']},
-  {n:'Таврія Сімферополь',r:60, c:'#1a3fc4', coaches:['Сергій Шевченко','Олег Федорчук','Анатолій Заяєв']},
-  {n:'Металург Запоріжжя',r:62, c:'#555',    coaches:['Юрій Максимов','Руслан Забранський','Ігор Жабченко']},
-  {n:'Кривбас Кривий Ріг',r:64, c:'#c00',    coaches:['Олег Тараненко','Вячеслав Грозний','Андрій Купцов']},
-  {n:'Заря Луганськ',     r:67, c:'#ff4400', coaches:['Юрій Вернидуб','Ігор Іоненко','Олександр Бабич']},
-  {n:'Арсенал Київ',      r:61, c:'#d4002d', coaches:['Леонід Буряк','Сергій Станович','Геннадій Литовченко']},
-  {n:'ПФК Олександрія',   r:59, c:'#ff8800', coaches:['Владимир Шаран','Олексій Поворознюк','Сергій Лавриненко']},
-  {n:'Маріуполь',         r:57, c:'#0057b8', coaches:['Олег Дулуб','Сергій Рафаїлов','Андрій Стецьків']},
-  {n:'Говерла Ужгород',   r:56, c:'#1a6fc4', coaches:['Михайло Стельмах','Іван Яремченко','Василь Рац']},
+  {n:'Шахтар Донецьк',    r:92, c:'#f77f00', coaches:['Мірча Луческу','Паулу Фонсека','Роберто Де Дзербі']},
+  {n:'Динамо Київ',       r:88, c:'#003f8a', coaches:['Олег Блохін','Сергій Ребров','Михайло Фоменко']},
+  {n:'Металіст Харків',   r:76, c:'#c8a800', coaches:['Мирон Маркевич','Олексій Баль','Ігор Рахаєв']},
+  {n:'ФК Дніпро',         r:74, c:'#1a6fc4', coaches:['Хуанде Рамос','Маркос Пакета','Дмитро Михайленко']},
+  {n:'Таврія Сімферополь',r:64, c:'#1a3fc4', coaches:['Сергій Шевченко','Олег Федорчук','Анатолій Заяєв']},
+  {n:'Чорноморець Одеса', r:63, c:'#003865', coaches:['Роман Григорчук','Сергій Пучков','Владислав Геращенко']},
+  {n:'Металург Запоріжжя',r:65, c:'#555555', coaches:['Юрій Максимов','Руслан Забранський','Ігор Жабченко']},
+  {n:'Карпати Львів',     r:67, c:'#006600', coaches:['Олег Кононов','Василь Євсєєв','Ігор Яворський']},
+  {n:'Металург Донецьк',  r:72, c:'#8b0000', coaches:['Сергій Кандауров','Олег Лутков','Микола Костов']},
+  {n:'Кривбас Кривий Ріг',r:66, c:'#cc0000', coaches:['Олег Тараненко','Вячеслав Грозний','Андрій Купцов']},
+  {n:'Зоря Луганськ',     r:62, c:'#ff4400', coaches:['Юрій Вернидуб','Ігор Іоненко','Олександр Бабич']},
+  {n:'ФК Харків',         r:58, c:'#003399', coaches:['Юрій Вакуленко','Андрій Купцов','Сергій Нечипоренко']},
+  {n:'Ворскла Полтава',   r:60, c:'#006622', coaches:['Василь Сачко','Олексій Єрьоменко','Микола Павлов']},
+  {n:'Арсенал Київ',      r:59, c:'#d4002d', coaches:['Леонід Буряк','Сергій Станович','Геннадій Литовченко']},
+  {n:'Маріуполь',         r:55, c:'#0057b8', coaches:['Олег Дулуб','Сергій Рафаїлов','Андрій Стецьків']},
+  {n:'Сталь Алчевськ',    r:52, c:'#888888', coaches:['Олег Коньков','Микола Лавренко','Сергій Близнюк']},
 ];
 
-// ── FIRST LEAGUE (hidden background) ────────────────────────────────────
+// ── FIRST LEAGUE 2006/07 ─────────────────────────────────────────────────
 const BASE_FIRST_LEAGUE = [
-  {n:'Геліос Харків',                   r:50, c:'#e63900', coaches:['Сергій Кузнецов','Олег Смалійчук']},
-  {n:'Зірка Кропивницький',             r:48, c:'#ff6600', coaches:['Юрій Морозов','Артем Яценко']},
-  {n:'Сталь Алчевськ',                  r:51, c:'#888888', coaches:['Олег Коньков','Микола Лавренко']},
-  {n:'ПФК Севастополь',                 r:49, c:'#003399', coaches:['Сергій Пищур','Вадим Євтушенко']},
-  {n:'Карпати Львів',                   r:54, c:'#006600', coaches:['Олег Кононов','Василь Євсєєв']},
-  {n:'Верес Рівне',                     r:47, c:'#cc0000', coaches:['Іван Федоров','Сергій Мізін']},
-  {n:'Оболонь Київ',                    r:48, c:'#006633', coaches:['Юрій Рибак','Сергій Ковалець']},
-  {n:'Олімпік Донецьк',                 r:52, c:'#ff8800', coaches:['Роман Санжар','Дмитро Батіг']},
-  {n:'ФК Львів',                        r:50, c:'#003399', coaches:['Юрій Дюдюн','Олексій Скиба']},
-  {n:'Нива Вінниця',                    r:45, c:'#009900', coaches:['Анатолій Бузник','Олег Лещинський']},
-  {n:'Нива Тернопіль',                  r:44, c:'#006600', coaches:['Ярослав Дем\u2019яненко','Михайло Гречко']},
-  {n:'Буковина Чернівці',               r:46, c:'#cc0000', coaches:['Іван Єресько','Василь Сіроштан']},
-  {n:'ПФК Суми',                        r:45, c:'#003366', coaches:['Сергій Завгородній','Андрій Дем\u2019яненко']},
-  {n:'Прикарпаття Івано-Франківськ',    r:44, c:'#006600', coaches:['Микола Федоренко','Роман Покора']},
-  {n:'Десна Чернігів',                  r:53, c:'#006600', coaches:['Олексій Бага','Сергій Лавренко']},
-  {n:'ФК Харків',                       r:47, c:'#003399', coaches:['Юрій Вакуленко','Андрій Купцов']},
+  {n:'Нафтовик Охтирка',              r:48, c:'#cc6600', coaches:['Олег Тищенко','Віктор Сердюк']},
+  {n:'Говерла Ужгород',               r:50, c:'#1a6fc4', coaches:['Михайло Стельмах','Іван Яремченко','Василь Рац']},
+  {n:'Оболонь Київ',                  r:52, c:'#006633', coaches:['Юрій Рибак','Сергій Ковалець']},
+  {n:'ПФК Олександрія',               r:54, c:'#ff8800', coaches:['Владимир Шаран','Олексій Поворознюк']},
+  {n:'Геліос Харків',                 r:46, c:'#e63900', coaches:['Сергій Кузнецов','Олег Смалійчук']},
+  {n:'ФК Львів',                      r:48, c:'#003399', coaches:['Юрій Дюдюн','Олексій Скиба']},
+  {n:'Волинь Луцьк',                  r:56, c:'#d4a000', coaches:['Віталій Кварцяний','Андрій Гордєєв','Сергій Ковалець']},
+  {n:'ПФК Севастополь',               r:50, c:'#003399', coaches:['Сергій Пищур','Вадим Євтушенко']},
+  {n:'Десна Чернігів',                r:49, c:'#006600', coaches:['Олексій Бага','Сергій Лавренко']},
+  {n:'Прикарпаття Івано-Франківськ',  r:44, c:'#006600', coaches:['Микола Федоренко','Роман Покора']},
+  {n:'Нива Тернопіль',                r:43, c:'#006600', coaches:['Ярослав Дем’яненко','Михайло Гречко']},
+  {n:'Нива Вінниця',                  r:44, c:'#009900', coaches:['Анатолій Бузник','Олег Лещинський']},
+  {n:'Зірка Кропивницький',           r:47, c:'#ff6600', coaches:['Юрій Морозов','Артем Яценко']},
+  {n:'Буковина Чернівці',             r:45, c:'#cc0000', coaches:['Іван Єресько','Василь Сіроштан']},
+  {n:'Олімпік Донецьк',               r:48, c:'#ff8800', coaches:['Роман Санжар','Дмитро Батіг']},
+  {n:'ПФК Суми',                      r:43, c:'#003366', coaches:['Сергій Завгородній','Андрій Дем’яненко']},
 ];
 
 const BASE_SECOND_LEAGUE = [
@@ -410,6 +410,24 @@ const BASE_SECOND_LEAGUE = [
   {n:'ІгроСервіс Сімферополь',      r:34, c:'#006600', coaches:['Олег Лужний','Сергій Пучков']},
   {n:'Енергетик Бурштин',           r:33, c:'#ff9900', coaches:['Микола Гришко','Андрій Воробець']},
 ];
+
+// Extra logos for 2006/07 era teams
+Object.assign(LOGO_URLS, {
+  'Верес Рівне': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjY2MwMDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QktCgPC90ZXh0Pjwvc3ZnPg==',
+  'Колос Ковалівка': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMDA2NjAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QmtCaPC90ZXh0Pjwvc3ZnPg==',
+  'Волинь Луцьк': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZDRhMDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QktCbPC90ZXh0Pjwvc3ZnPg==',
+  'Карпати Львів': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMDA2NjAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QmtCbPC90ZXh0Pjwvc3ZnPg==',
+  'Зоря Луганськ': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZmY0NDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7Ql9CbPC90ZXh0Pjwvc3ZnPg==',
+  'ФК Дніпро': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMWE2ZmM0IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QlNCdPC90ZXh0Pjwvc3ZnPg==',
+  'Таврія Сімферополь': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMWEzZmM0IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QotChPC90ZXh0Pjwvc3ZnPg==',
+  'Металург Запоріжжя': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjNTU1NTU1IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QnNCXPC90ZXh0Pjwvc3ZnPg==',
+  'Кривбас Кривий Ріг': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjY2MwMDAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QmtCgPC90ZXh0Pjwvc3ZnPg==',
+  'Нафтовик Охтирка': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjY2M2NjAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QndCePC90ZXh0Pjwvc3ZnPg==',
+  'Говерла Ужгород': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMWE2ZmM0IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7Qk9CjPC90ZXh0Pjwvc3ZnPg==',
+  'Оболонь Київ': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjMDA2NjMzIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QntCaPC90ZXh0Pjwvc3ZnPg==',
+  'ПФК Олександрія': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjZmY4ODAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjMDAwMDAwIj7QntCbPC90ZXh0Pjwvc3ZnPg==',
+  'Сталь Алчевськ': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTEwIj48cGF0aCBkPSJNNTAgNSBMOTAgMjAgTDkwIDYwIFE5MCA5MCA1MCAxMDUgUTEwIDkwIDEwIDYwIEwxMCAyMCBaIiBmaWxsPSIjODg4ODg4IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yKSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz48dGV4dCB4PSI1MCIgeT0iNjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjI4IiBmaWxsPSIjZmZmZmZmIj7QodCQPC90ZXh0Pjwvc3ZnPg==',
+});
 
 // ── CAMPAIGN STATE ────────────────────────────────────────────────────────
 // ── LOAD / SAVE FULL GAME STATE ──────────────────────────────────────────
@@ -449,15 +467,18 @@ let prevPhase='setup';
 // ── FIRST LEAGUE SIMULATION ───────────────────────────────────────────────
 function simFirstLeagueSeason(){
   return firstLeagueState.map(t=>{
-    const pts = Math.max(0, Math.round((t.r/55)*55 + (Math.random()*30-15)));
+    const base = (t.r/60)*60;
+    const form = (t.form||0)*1.5;
+    const pts = Math.max(0, Math.round(base + form + (Math.random()*32-16)));
     return {...t, pts};
   }).sort((a,b)=>b.pts-a.pts);
 }
 
-// ── SECOND LEAGUE SIMULATION ──────────────────────────────────────────────
 function simSecondLeagueSeason(){
   return secondLeagueState.map(t=>{
-    const pts = Math.max(0, Math.round((t.r/45)*45 + (Math.random()*28-14)));
+    const base = (t.r/50)*50;
+    const form = (t.form||0)*1.2;
+    const pts = Math.max(0, Math.round(base + form + (Math.random()*28-14)));
     return {...t, pts};
   }).sort((a,b)=>b.pts-a.pts);
 }
@@ -874,7 +895,7 @@ function startSeason(){
   rounds=generateSchedule();
   simulatedUpTo=0;
   currentRound=0;
-  const yr = 2012 + campaignSeason;
+  const yr = 2005 + campaignSeason;
   document.getElementById('header-subtitle').textContent=`Прем'єр-ліга · Сезон ${yr}/${String(yr+1).slice(2)} · 16 команд · 30 турів`;
   show('phase-season');
   updateProgress();
@@ -958,7 +979,7 @@ function finishSeason(){
 
   const record={
     season:campaignSeason,
-    seasonYear: (2012+campaignSeason) + '/' + String(2013+campaignSeason).slice(2),
+    seasonYear: (2005+campaignSeason) + '/' + String(2006+campaignSeason).slice(2),
     flSnapshot: [...firstLeagueState].sort((a,b)=>b.r-a.r).map(t=>({n:t.n,r:t.r,form:t.form||0})),
     slSnapshot: [...secondLeagueState].sort((a,b)=>b.r-a.r).map(t=>({n:t.n,r:t.r,form:t.form||0})),
     date:new Date().toLocaleDateString('uk-UA'),
@@ -977,7 +998,7 @@ function finishSeason(){
   const logo=LOGO_URLS[winner.n]||'';
   document.getElementById('winner-logo').src=logo;
   document.getElementById('winner-name').textContent=winner.n;
-  const _yr = 2012 + campaignSeason;
+  const _yr = 2005 + campaignSeason;
   document.getElementById('winner-sub').textContent=`Чемпіон України · Сезон ${_yr}/${String(_yr+1).slice(2)} · ${winner.pts} очок`;
 
   // Show relegation/promotion info in final screen
@@ -1038,7 +1059,7 @@ function goOffseason(){
 
   campaignSeason++;
   saveGameState();
-  const _oyr = 2012 + campaignSeason;
+  const _oyr = 2005 + campaignSeason;
   document.getElementById('modal-title').textContent=`Міжсезоння ${_oyr-1}/${_oyr}`;
   document.getElementById('modal-sub').textContent=`Вильоти, підвищення, трансфери та підготовка до сезону ${_oyr}/${String(_oyr+1).slice(2)}`;
   document.getElementById('modal-news').innerHTML=news.map(item=>`
@@ -1076,7 +1097,7 @@ function buildSetupGrid(showPreview=false){
   const banner = document.getElementById('setup-preview-banner');
   const btn = document.getElementById('btn-start-season');
   if(showPreview && campaignSeason > 1){
-    const yr = 2012 + campaignSeason;
+    const yr = 2005 + campaignSeason;
     document.getElementById('setup-season-title').textContent = `Сезон ${yr}/${String(yr+1).slice(2)}`;
     document.getElementById('setup-season-sub').textContent = `${teamState.length} команд · Прем'єр-ліга · 30 турів`;
     btn.textContent = `▶ Розпочати сезон ${yr}/${String(yr+1).slice(2)}`;
@@ -1146,7 +1167,7 @@ function importSave(event){
       rounds=[]; stats={}; currentRound=0; simulatedUpTo=0;
       _lastSorted=[]; _lastFlSorted=[]; _lastSlSorted=[];
       // Save to localStorage and reload page — cleanest way to restore state
-      const yr = 2012 + campaignSeason;
+      const yr = 2005 + campaignSeason;
       alert('✅ Збереження завантажено!\nСезон ' + yr + '/' + String(yr+1).slice(2) + '\nСторінка перезавантажиться.');
       location.reload();
     } catch(err){
