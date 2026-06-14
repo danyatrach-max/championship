@@ -179,14 +179,14 @@ tr.zone-uel td{background:rgba(140,20,60,.09)}
     <div id="stab-fl" class="hidden card">
       <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase">Перша ліга · Поточний сезон</div>
       <table>
-        <thead><tr><th>#</th><th>Команда</th><th>Рейтинг</th><th>Форма</th></tr></thead>
+        <thead><tr><th>#</th><th>Команда</th><th>О</th><th>Рейт</th><th>Форма</th></tr></thead>
         <tbody id="stab-fl-body"></tbody>
       </table>
     </div>
     <div id="stab-sl" class="hidden card">
       <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase">Друга ліга · Поточний сезон</div>
       <table>
-        <thead><tr><th>#</th><th>Команда</th><th>Рейтинг</th><th>Форма</th></tr></thead>
+        <thead><tr><th>#</th><th>Команда</th><th>О</th><th>Рейт</th><th>Форма</th></tr></thead>
         <tbody id="stab-sl-body"></tbody>
       </table>
     </div>
@@ -467,6 +467,7 @@ let secondLeagueState = (_rawSave && Array.isArray(_rawSave.secondLeagueState) &
   : BASE_SECOND_LEAGUE.map(t=>({...t, form:0, coach:t.coaches[0], coachIdx:0, transferBonus:0}));
 
 let rounds=[], stats={}, currentRound=0, simulatedUpTo=0;
+let flLivePts={}, slLivePts={};  // live points for FL/SL by round
 let seasonHistory = JSON.parse(localStorage.getItem('ua_champ_history2') || '[]');
 let prevPhase='setup';
 
@@ -771,28 +772,29 @@ function formDots(recentForm){
 
 function renderLeaguePreview(league){
   const state = league==='fl' ? firstLeagueState : secondLeagueState;
+  const livePts = league==='fl' ? flLivePts : slLivePts;
   const bodyId = league==='fl' ? 'stab-fl-body' : 'stab-sl-body';
-  const sorted = [...state].sort((a,b)=>b.r-a.r);
+  // Sort by live points, then by rating
+  const sorted = [...state].sort((a,b)=>{
+    const pa=(livePts[a.n]||0), pb=(livePts[b.n]||0);
+    return pb-pa || b.r-a.r;
+  });
   const medals=['🥇','🥈','🥉'];
   document.getElementById(bodyId).innerHTML = sorted.map((t,i)=>{
-    const isPromo = i<2;
-    const isRel = i>=14;
-    const cls = isPromo?'champion':isRel?'relegate':'';
-    const badge = isPromo
-      ? '<span style="font-size:10px;color:#4cde7a;margin-left:3px">⬆</span>'
-      : isRel
-      ? '<span style="font-size:10px;color:#e06060;margin-left:3px">⬇</span>'
-      : '';
-    const formVal = t.form||0;
-    const formStr = formVal>0
-      ? `<span style="color:#4cde7a;font-weight:700">▲${formVal}</span>`
-      : formVal<0
-      ? `<span style="color:#e06060;font-weight:700">▼${Math.abs(formVal)}</span>`
-      : `<span style="color:var(--muted)">—</span>`;
+    const isPromo=i<2, isRel=i>=14;
+    const cls=isPromo?'champion':isRel?'relegate':'';
+    const badge=isPromo?'<span style="font-size:10px;color:#4cde7a;margin-left:3px">⬆</span>'
+               :isRel?'<span style="font-size:10px;color:#e06060;margin-left:3px">⬇</span>':'';
+    const pts=livePts[t.n]||0;
+    const formVal=t.form||0;
+    const formStr=formVal>0?`<span style="color:#4cde7a">▲${formVal}</span>`
+                 :formVal<0?`<span style="color:#e06060">▼${Math.abs(formVal)}</span>`
+                 :`<span style="color:var(--muted)">—</span>`;
     return `<tr class="${cls}">
       <td style="font-size:12px;color:var(--muted)">${medals[i]||i+1}${badge}</td>
       <td><div class="team-cell">${logoImg(t.n,18)}<span>${t.n}</span></div></td>
-      <td><span class="rating-badge">${t.r}</span></td>
+      <td class="pts-cell">${pts}</td>
+      <td><span class="rating-badge" style="font-size:11px">${t.r}</span></td>
       <td>${formStr}</td>
     </tr>`;
   }).join('');
@@ -898,6 +900,11 @@ function updateProgress(){
 function startSeason(){
   saveGameState();
   initStats();
+  // Init live FL/SL points
+  flLivePts={};
+  slLivePts={};
+  firstLeagueState.forEach(t=>{ flLivePts[t.n]=0; });
+  secondLeagueState.forEach(t=>{ slLivePts[t.n]=0; });
   rounds=generateSchedule();
   simulatedUpTo=0;
   currentRound=0;
@@ -911,10 +918,26 @@ function startSeason(){
   renderStats('stats-grid');
 }
 
+function simOneLeagueRound(livePts, state){
+  // Randomly pair teams and award points
+  const teams = [...state].sort(()=>Math.random()-.5);
+  for(let i=0;i<teams.length;i+=2){
+    if(i+1>=teams.length) break;
+    const a=teams[i], b=teams[i+1];
+    const ra=(a.r||50)+(a.form||0)*0.5+Math.random()*20;
+    const rb=(b.r||50)+(b.form||0)*0.5+Math.random()*20;
+    if(ra>rb*1.1){ livePts[a.n]=(livePts[a.n]||0)+3; }
+    else if(rb>ra*1.1){ livePts[b.n]=(livePts[b.n]||0)+3; }
+    else { livePts[a.n]=(livePts[a.n]||0)+1; livePts[b.n]=(livePts[b.n]||0)+1; }
+  }
+}
+
 function simCurrentRound(){
   if(simulatedUpTo>=30) return;
   const playedRound=simulatedUpTo;
   simulateRound(playedRound);
+  simOneLeagueRound(flLivePts, firstLeagueState);
+  simOneLeagueRound(slLivePts, secondLeagueState);
   simulatedUpTo++;
   currentRound=playedRound;
   updateProgress();
@@ -926,7 +949,12 @@ function simCurrentRound(){
 }
 
 function simAllRemaining(){
-  while(simulatedUpTo<30){simulateRound(simulatedUpTo);simulatedUpTo++;}
+  while(simulatedUpTo<30){
+    simulateRound(simulatedUpTo);
+    simOneLeagueRound(flLivePts, firstLeagueState);
+    simOneLeagueRound(slLivePts, secondLeagueState);
+    simulatedUpTo++;
+  }
   currentRound=29;
   updateProgress();
   renderRoundsNav();
@@ -941,8 +969,14 @@ function nextRound(){if(currentRound<rounds.length-1){currentRound++;renderRound
 function jumpToRound(i){currentRound=i;renderRoundsNav();renderRoundDisplay(i);}
 
 function showSeasonTab(name){
-  ['rounds','table','stats'].forEach(t=>document.getElementById('stab-'+t).classList.toggle('hidden',t!==name));
-  document.querySelectorAll('#phase-season .tab').forEach((el,i)=>el.classList.toggle('active',['rounds','table','stats'][i]===name));
+  ['rounds','table','fl','sl','stats'].forEach(t=>{
+    const el=document.getElementById('stab-'+t);
+    if(el) el.classList.toggle('hidden',t!==name);
+  });
+  document.querySelectorAll('#phase-season .tabs .tab').forEach((el,i)=>
+    el.classList.toggle('active',['rounds','table','fl','sl','stats'][i]===name));
+  if(name==='fl') renderLeaguePreview('fl');
+  if(name==='sl') renderLeaguePreview('sl');
 }
 
 function showFinalTab(name){
