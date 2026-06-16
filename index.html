@@ -39,9 +39,9 @@ tr:last-child td{border-bottom:none}
 .tc{display:flex;align-items:center;gap:7px;font-weight:500;font-size:13px}
 tr.champ td{background:rgba(245,208,32,.07)}
 tr.rel td{background:rgba(220,50,50,.06)}
-tr.euro-ucl-g td{background:rgba(245,208,32,.08)}
-tr.euro-ucl-q td{background:rgba(245,208,32,.04)}
-tr.euro-uef td{background:rgba(100,180,255,.05)}
+tr.euro-ucl-g td{background:rgba(0,63,138,.18)}
+tr.euro-ucl-q td{background:rgba(100,180,255,.10)}
+tr.euro-uef td{background:rgba(128,0,32,.12)}
 .rndh{display:flex;align-items:center;justify-content:space-between;padding:10px 0 8px;border-bottom:1px solid var(--brd);margin-bottom:4px}
 .rndt{font-family:var(--fd);font-size:20px;letter-spacing:.04em;color:var(--y)}
 .mr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--brd)}
@@ -143,10 +143,10 @@ tr.euro-uef td{background:rgba(100,180,255,.05)}
     <div id="st1" class="hidden card">
       <table><thead><tr><th>#</th><th>Команда</th><th>І</th><th>В</th><th>Н</th><th>П</th><th>ГЗ</th><th>ГП</th><th>РГ</th><th>О</th></tr></thead><tbody id="stbody"></tbody></table>
       <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;font-size:11px;color:var(--mt)">
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(245,208,32,.5);border-radius:2px;margin-right:4px"></span>ЛЧ Груповий (1)</span>
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(245,208,32,.2);border-radius:2px;margin-right:4px"></span>ЛЧ Кваліфікація (2)</span>
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(100,180,255,.3);border-radius:2px;margin-right:4px"></span>Кубок УЄФА (3-5)</span>
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(220,50,50,.2);border-radius:2px;margin-right:4px"></span>Вильот (15-16)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(0,63,138,.6);border-radius:2px;margin-right:4px"></span>ЛЧ Груповий (1)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(100,180,255,.5);border-radius:2px;margin-right:4px"></span>ЛЧ Кваліфікація (2)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(128,0,32,.6);border-radius:2px;margin-right:4px"></span>Кубок УЄФА (3-5)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(220,50,50,.4);border-radius:2px;margin-right:4px"></span>Вильот (15-16)</span>
       </div>
     </div>
     <div id="st2" class="hidden card">
@@ -175,10 +175,10 @@ tr.euro-uef td{background:rgba(100,180,255,.05)}
     <div id="ft0" class="card">
       <table><thead><tr><th>#</th><th>Команда</th><th>І</th><th>В</th><th>Н</th><th>П</th><th>ГЗ</th><th>ГП</th><th>РГ</th><th>О</th></tr></thead><tbody id="ftbody"></tbody></table>
       <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;font-size:11px;color:var(--mt)">
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(245,208,32,.5);border-radius:2px;margin-right:4px"></span>ЛЧ Груповий (1)</span>
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(245,208,32,.2);border-radius:2px;margin-right:4px"></span>ЛЧ Кваліфікація (2)</span>
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(100,180,255,.3);border-radius:2px;margin-right:4px"></span>Кубок УЄФА (3-5)</span>
-        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(220,50,50,.2);border-radius:2px;margin-right:4px"></span>Вильот (15-16)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(0,63,138,.6);border-radius:2px;margin-right:4px"></span>ЛЧ Груповий (1)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(100,180,255,.5);border-radius:2px;margin-right:4px"></span>ЛЧ Кваліфікація (2)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(128,0,32,.6);border-radius:2px;margin-right:4px"></span>Кубок УЄФА (3-5)</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:rgba(220,50,50,.4);border-radius:2px;margin-right:4px"></span>Вильот (15-16)</span>
       </div>
     </div>
     <div id="ft1" class="hidden card">
@@ -206,6 +206,32 @@ tr.euro-uef td{background:rgba(100,180,255,.05)}
         <button class="btnR" onclick="delAllHist()">🗑 Очистити</button>
         <button class="btnR" onclick="resetCampaign()">↺ Нова кампанія</button>
       </div>
+    </div>
+    <div id="medals-table" class="card" style="margin-bottom:1rem;display:none">
+      <div class="slabel" style="margin-bottom:10px">Загальний залік — медалі та очки</div>
+      <table><thead><tr>
+        <th style="text-align:left">#</th>
+        <th style="text-align:left">Команда</th>
+        <th title="Золото">🥇</th>
+        <th title="Срібло">🥈</th>
+        <th title="Бронза">🥉</th>
+        <th title="Очки (3-2-1)">Очки</th>
+      </tr></thead><tbody id="medals-body"></tbody></table>
+    </div>
+    <div id="points-table" class="card" style="margin-bottom:1rem;display:none">
+      <div class="slabel" style="margin-bottom:10px">Загальна таблиця очок у Прем'єр-лізі</div>
+      <table><thead><tr>
+        <th style="text-align:left">#</th>
+        <th style="text-align:left">Команда</th>
+        <th title="Сезонів у ПЛ">С</th>
+        <th title="Ігри">І</th>
+        <th title="Перемоги">В</th>
+        <th title="Нічиї">Н</th>
+        <th title="Поразки">П</th>
+        <th title="Голи забито">ГЗ</th>
+        <th title="Голи пропущено">ГП</th>
+        <th title="Очки">О</th>
+      </tr></thead><tbody id="points-body"></tbody></table>
     </div>
     <div id="hlist"></div>
     <div id="hempty" class="card" style="text-align:center;color:var(--mt);padding:2rem">Ще немає завершених сезонів</div>
@@ -371,7 +397,7 @@ function mkTeam(t){
 }
 
 // ── LIVE STATE ────────────────────────────────────────────────────────────
-var season  = 1;
+var season  = 1999;
 var PL      = BASE_PL.map(function(t){return mkTeam(t);});
 var FL      = BASE_FL.map(function(t){return mkTeam(t);});
 var SL      = BASE_SL.map(function(t){return mkTeam(t);});
@@ -595,7 +621,7 @@ function startSeason(){
   window._slFinalSorted=slResult.sorted;
   window._lastFLSorted=flResult.sorted;
   window._lastSLSorted=slResult.sorted;
-  document.getElementById('hsub').textContent="Премʼєр-ліга · Сезон "+(1998+season)+"/"+(String(1999+season).slice(-2))+" · 16 команд · 30 турів";
+  document.getElementById('hsub').textContent="Премʼєр-ліга · Сезон "+season+"/"+(String(season+1).slice(-2))+" · 16 команд · 30 турів";
   showPhase('ph-season');
   updateProgress();renderRnav();renderRound(0);renderTable('stbody');renderStats('ssgrid');
 }
@@ -798,41 +824,65 @@ function doOffseason(){
   saveState();
 
   var champ=lastSorted[0]?lastSorted[0].n:'';
-  var top4=lastSorted.slice(0,4).map(function(t){return t.n;});
+
   for(var i=0;i<PL.length;i++){
     var t=PL[i];
-    var isChamp=t.n===champ;
-    var wasFL=!lastSorted.find(function(s){return s.n===t.n;});
-    var delta=isChamp?Math.floor(Math.random()*4):wasFL?Math.floor(Math.random()*3):top4.indexOf(t.n)>=0?Math.floor(Math.random()*3)-1:Math.floor(Math.random()*8)-3;
-    var newR=Math.max(1.0,Math.min(10.0,Math.round((t.r+delta*0.08)*10)/10));
-    if(newR!==t.r){
-      PL[i].r=newR;PL[i].tb=0;
-      var sign=delta>0?'+':'',icon2=delta>0?'🟢':'🔴';
-      var desc=delta>0?TRANS[Math.floor(Math.random()*5)](t.n):TRANS[5+Math.floor(Math.random()*2)](t.n);
-      news.push({icon:icon2,title:'Трансфер: '+t.n,desc:desc,delta:sign+delta,pos:delta>0});
-    }
-    {
-      var cc=isChamp?0.05:wasFL?0.4:0.18;
-      if(Math.random()<cc){
-        var oc=t.coach, newCoach;
-        // 30% chance: pick from global pool (any real coach)
-        if(Math.random()<0.30){
-          newCoach=GLOBAL_COACHES[Math.floor(Math.random()*GLOBAL_COACHES.length)];
-        } else if(t.coaches&&t.coaches.length>1){
-          var ni2=(t.ci+1)%t.coaches.length;
-          PL[i].ci=ni2;
-          newCoach=t.coaches[ni2];
-        } else {
-          newCoach=GLOBAL_COACHES[Math.floor(Math.random()*GLOBAL_COACHES.length)];
-        }
-        PL[i].coach=newCoach;
-        var eff=Math.floor(Math.random()*6)-2;
-        PL[i].r=Math.max(1.0,Math.min(10.0,Math.round((PL[i].r+eff*0.05)*10)/10));
-        news.push({icon:'👔',title:'Новий тренер: '+t.n,desc:oc+' → '+newCoach+'.',delta:eff>=0?'+'+String(eff*0.05).slice(0,4):String(eff*0.05).slice(0,5),pos:eff>=0});
-      }
-    }
     var pos=lastSorted.findIndex(function(s){return s.n===t.n;});
-    PL[i].form=pos>=0&&pos<=3?3:pos>=12?-3:wasFL?1:0;
+    var wasFL=(pos===-1);
+    var isChamp=(t.n===champ);
+
+    // ── RATING: based on actual finish position ───────────────────────
+    var rDelta;
+    if(wasFL)       rDelta = 0.1 + Math.random()*0.2;
+    else if(pos===0) rDelta = 0.5 + Math.random()*0.4; // champion: +0.5..+0.9
+    else if(pos===1) rDelta = 0.3 + Math.random()*0.3; // 2nd: +0.3..+0.6
+    else if(pos<=4)  rDelta = 0.1 + Math.random()*0.2; // 3-5: slight boost
+    else if(pos<=8)  rDelta = (Math.random()-0.5)*0.2;  // mid: ±0.1
+    else if(pos<=11) rDelta = -0.1 - Math.random()*0.15;
+    else             rDelta = -0.3 - Math.random()*0.3; // bottom: -0.3..-0.6
+    // Small transfer randomness
+    rDelta += (Math.random()-0.5)*0.2;
+    rDelta = Math.round(rDelta*10)/10;
+    var newR = Math.max(1.0, Math.min(10.0, Math.round((t.r+rDelta)*10)/10));
+    if(newR!==t.r){
+      var oldR=t.r;
+      PL[i].r=newR; PL[i].tb=0;
+      var rIcon=rDelta>0?'🟢':'🔴';
+      var desc=rDelta>0?TRANS[Math.floor(Math.random()*5)](t.n):TRANS[5+Math.floor(Math.random()*2)](t.n);
+      news.push({icon:rIcon,title:'Трансфер: '+t.n,
+        desc:desc+' ('+oldR.toFixed(1)+' → '+newR.toFixed(1)+')',
+        delta:(rDelta>0?'+':'')+rDelta.toFixed(1),pos:rDelta>0});
+    }
+
+    // ── FORM: based on finish ─────────────────────────────────────────
+    if(wasFL)        PL[i].form=1;
+    else if(pos===0) PL[i].form=4;
+    else if(pos<=2)  PL[i].form=3;
+    else if(pos<=5)  PL[i].form=1;
+    else if(pos<=9)  PL[i].form=0;
+    else if(pos<=12) PL[i].form=-1;
+    else             PL[i].form=-3;
+
+    // ── COACH CHANGE ──────────────────────────────────────────────────
+    var coachChance=isChamp?0.05:wasFL?0.35:pos>=12?0.55:pos>=8?0.25:0.15;
+    if(Math.random()<coachChance){
+      var oc=t.coach, newCoach;
+      if(Math.random()<0.35){
+        newCoach=GLOBAL_COACHES[Math.floor(Math.random()*GLOBAL_COACHES.length)];
+      } else if(t.coaches&&t.coaches.length>1){
+        var ni2=(t.ci+1)%t.coaches.length;
+        PL[i].ci=ni2; newCoach=t.coaches[ni2];
+      } else {
+        newCoach=GLOBAL_COACHES[Math.floor(Math.random()*GLOBAL_COACHES.length)];
+      }
+      PL[i].coach=newCoach;
+      var cEff=isChamp?(Math.random()<0.3?-0.1:0):(Math.random()-0.4)*0.2;
+      cEff=Math.round(cEff*10)/10;
+      PL[i].r=Math.max(1.0,Math.min(10.0,Math.round((PL[i].r+cEff)*10)/10));
+      news.push({icon:'👔',title:'Новий тренер: '+t.n,
+        desc:oc+' → '+newCoach,
+        delta:(cEff>=0?'+':'')+cEff.toFixed(1),pos:cEff>=0});
+    }
   }
   // SAVE again after all transfers
   saveState();
@@ -852,7 +902,7 @@ function finishSeason(){
 
   var w=s[0];
   var record={
-    season:season,date:new Date().toLocaleDateString('uk-UA'),winner:w.n,
+    season:season+'/'+( String(season+1).slice(-2)),date:new Date().toLocaleDateString('uk-UA'),winner:w.n,
     podium:s.slice(0,3).map(function(t){return t.n;}),
     relegated:s.slice(14).map(function(t){return t.n;}),
     promoted:[flS[0].n,flS[1]?flS[1].n:''],
@@ -866,7 +916,7 @@ function finishSeason(){
 
   document.getElementById('wlogo').src=LOGO_URLS[w.n]||'';
   document.getElementById('wname').textContent=w.n;
-  document.getElementById('wsub').textContent='Чемпіон України · Сезон '+(1998+season)+'/'+(String(1999+season).slice(-2))+' · '+w.pts+' очок';
+  document.getElementById('wsub').textContent='Чемпіон України · Сезон '+season+'/'+(String(season+1).slice(-2))+' · '+w.pts+' очок';
 
   // Euro zones: 1=UCL, 2-3=UEFA Cup, 4=UEFA Cup (via cup), 15-16=relegation
   var euroHTML='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">'
@@ -902,8 +952,8 @@ function goOffseason(){
   var news=doOffseason();
   season++;
   saveState(); // save new season number
-  document.getElementById('modal-t').textContent='Міжсезоння '+(season-1)+'/'+season;
-  document.getElementById('modal-s').textContent='Вильоти, підвищення, трансфери — Сезон '+season;
+  document.getElementById('modal-t').textContent='Міжсезоння '+(season)+'/'+( season+1);
+  document.getElementById('modal-s').textContent='Вильоти, підвищення, трансфери — Сезон '+(season+1)+'/'+(String(season+2).slice(-2));
   document.getElementById('modal-news').innerHTML=news.map(function(item){
     return '<div class="ni"><div class="nic">'+item.icon+'</div>'
       +'<div class="nib"><div class="nit">'+item.title+' <span class="rc '+(item.pos?'ru':'rd')+'">'+item.delta+'</span></div>'
@@ -920,7 +970,96 @@ function closeOffseason(){
 // ── HISTORY UI ────────────────────────────────────────────────────────────
 function showHistory(){prevPhase=curPhase;renderHistory();showPhase('ph-hist');}
 function hideHistory(){showPhase(prevPhase==='ph-final'?'ph-final':prevPhase==='ph-season'?'ph-season':'ph-setup');}
+function renderPointsTable(){
+  var tbl = document.getElementById('points-table');
+  var body = document.getElementById('points-body');
+  if(!seasonLog.length){ tbl.style.display='none'; return; }
+  tbl.style.display='block';
+
+  // Aggregate stats from all season records
+  var totals = {};
+  seasonLog.forEach(function(s){
+    if(!s.table) return;
+    s.table.forEach(function(t){
+      if(!totals[t.n]) totals[t.n]={seasons:0,played:0,won:0,drawn:0,lost:0,gf:0,ga:0,pts:0};
+      totals[t.n].seasons++;
+      totals[t.n].played += t.played||0;
+      totals[t.n].won    += t.won||0;
+      totals[t.n].drawn  += t.drawn||0;
+      totals[t.n].lost   += t.lost||0;
+      totals[t.n].gf     += t.gf||0;
+      totals[t.n].ga     += t.ga||0;
+      totals[t.n].pts    += t.pts||0;
+    });
+  });
+
+  var rows = Object.keys(totals).map(function(n){
+    return Object.assign({n:n}, totals[n]);
+  }).sort(function(a,b){
+    if(b.pts!==a.pts) return b.pts-a.pts;
+    return (b.gf-b.ga)-(a.gf-a.ga);
+  });
+
+  body.innerHTML = rows.map(function(r,i){
+    var rowCls = i===0?'style="background:rgba(0,63,138,.15)"':
+                 i===1?'style="background:rgba(100,180,255,.08)"':
+                 i<=4?'style="background:rgba(128,0,32,.08)"':'';
+    return '<tr '+rowCls+'>'
+      +'<td style="color:var(--mt);font-size:12px">'+(i+1)+'</td>'
+      +'<td><div class="tc">'+LI(r.n,18)+'<span>'+r.n+'</span></div></td>'
+      +'<td style="color:var(--mt)">'+r.seasons+'</td>'
+      +'<td>'+r.played+'</td>'
+      +'<td>'+r.won+'</td>'
+      +'<td>'+r.drawn+'</td>'
+      +'<td>'+r.lost+'</td>'
+      +'<td>'+r.gf+'</td>'
+      +'<td>'+r.ga+'</td>'
+      +'<td style="font-weight:700;color:var(--y)">'+r.pts+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function renderMedalsTable(){
+  var tbl = document.getElementById('medals-table');
+  var body = document.getElementById('medals-body');
+  if(!seasonLog.length){ tbl.style.display='none'; return; }
+  tbl.style.display='block';
+  // Count medals from history
+  var medals = {};
+  seasonLog.forEach(function(s){
+    s.podium.forEach(function(n,i){
+      if(!n) return;
+      if(!medals[n]) medals[n]={gold:0,silver:0,bronze:0};
+      if(i===0) medals[n].gold++;
+      else if(i===1) medals[n].silver++;
+      else if(i===2) medals[n].bronze++;
+    });
+  });
+  // Sort: gold desc, then silver, then bronze, then total pts
+  var rows = Object.keys(medals).map(function(n){
+    var m = medals[n];
+    return {n:n, gold:m.gold, silver:m.silver, bronze:m.bronze, pts:m.gold*3+m.silver*2+m.bronze};
+  }).sort(function(a,b){
+    if(b.gold!==a.gold) return b.gold-a.gold;
+    if(b.silver!==a.silver) return b.silver-a.silver;
+    if(b.bronze!==a.bronze) return b.bronze-a.bronze;
+    return b.pts-a.pts;
+  });
+  body.innerHTML = rows.map(function(r,i){
+    return '<tr>'
+      +'<td style="color:var(--mt);font-size:12px">'+(i+1)+'</td>'
+      +'<td><div class="tc">'+LI(r.n,18)+'<span>'+r.n+'</span></div></td>'
+      +'<td style="text-align:center;font-weight:700;color:#f5d020">'+(r.gold||'—')+'</td>'
+      +'<td style="text-align:center;color:#b0b8c5">'+(r.silver||'—')+'</td>'
+      +'<td style="text-align:center;color:#cd7f32">'+(r.bronze||'—')+'</td>'
+      +'<td style="text-align:center;font-weight:600;color:var(--y)">'+r.pts+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
 function renderHistory(){
+  renderPointsTable();
+  renderMedalsTable();
   var el=document.getElementById('hlist'),em=document.getElementById('hempty');
   if(!seasonLog.length){el.innerHTML='';em.classList.remove('hidden');return;}
   em.classList.add('hidden');
@@ -944,7 +1083,7 @@ function delH(i){if(!confirm('Видалити цей сезон?'))return;seaso
 function delAllHist(){if(!confirm('Видалити весь архів?'))return;seasonLog=[];saveHistory();renderHistory();}
 function resetCampaign(){
   if(!confirm('Нова кампанія? Весь прогрес буде видалено.'))return;
-  seasonLog=[];season=1;lastSorted=[];
+  seasonLog=[];season=1999;lastSorted=[];
   PL=BASE_PL.map(function(t){return mkTeam(t);});
   FL=BASE_FL.map(function(t){return mkTeam(t);});
   SL=BASE_SL.map(function(t){return mkTeam(t);});
