@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ЧЕМПІОНАТ УКРАЇНИ — КАР'ЄРА 1999/2000</title>
+<title>ЧЕМПІОНАТ УКРАЇНИ — КАР'ЄРА 2008/2009</title>
 <style>
 :root{
   --blue:#075ccf;
@@ -79,9 +79,6 @@ tr:hover{background:rgba(255,212,59,.06)}
 .zoneChamp{box-shadow:inset 5px 0 var(--yellow)}
 .zoneEuro{box-shadow:inset 5px 0 var(--green)}
 .zoneRel{box-shadow:inset 5px 0 var(--red)}
-
-
-
 
 .crest{
   width:28px;
@@ -196,27 +193,25 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:18px}
 }
 
 
-#premierRounds .crest{
-  width:22px;
-  height:22px;
-  margin-right:5px;
-}
-#premierRounds .crestText{
-  font-size:6.5px;
-}
+.zoneUCL{box-shadow:inset 5px 0 #075ccf;}
+.zoneUCLQ{box-shadow:inset 5px 0 #62b6ff;}
+.zoneUEL{box-shadow:inset 5px 0 #800020;}
+.legend .ucl{background:#075ccf}
+.legend .uclq{background:#62b6ff}
+.legend .uel{background:#800020}
 
 </style>
 </head>
 <body>
 <header>
   <h1>ЧЕМПІОНАТ УКРАЇНИ</h1>
-  <p>ПРЕМ'ЄР-ЛІГА · ПЕРША ЛІГА · ДРУГА ЛІГА · КАР'ЄРА З СЕЗОНУ 1999/2000</p>
+  <p>ПРЕМ'ЄР-ЛІГА · ПЕРША ЛІГА · ДРУГА ЛІГА · КАР'ЄРА З СЕЗОНУ 2008/2009</p>
 </header>
 
 <div class="wrap">
   <section class="panel">
     <div class="top">
-      <div class="stat"><small>СЕЗОН</small><b id="seasonInfo">1999/2000</b></div>
+      <div class="stat"><small>СЕЗОН</small><b id="seasonInfo">2008/2009</b></div>
       <div class="stat"><small>ТУР</small><b id="roundInfo">0 / 30</b></div>
       <div class="stat"><small>ЛІДЕР</small><b id="leaderInfo">—</b></div>
       <div class="stat"><small>АРХІВ</small><b id="archiveInfo">0</b></div>
@@ -247,8 +242,9 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:18px}
       <div class="panel">
         <h2>ПРЕМ'ЄР-ЛІГА — ПОТОЧНИЙ СЕЗОН</h2>
         <div class="legend">
-          <span><i class="dot" style="background:var(--yellow)"></i>ЧЕМПІОН</span>
-          <span><i class="dot" style="background:var(--green)"></i>ЄВРОКУБКИ</span>
+          <span><i class="dot ucl"></i>ЛІГА ЧЕМПІОНІВ</span>
+          <span><i class="dot uclq"></i>КВАЛІФІКАЦІЯ ЛЧ</span>
+          <span><i class="dot uel"></i>ЛІГА ЄВРОПИ</span>
           <span><i class="dot" style="background:var(--red)"></i>ВИЛІТ</span>
         </div>
         <table id="premierTable"></table>
@@ -316,62 +312,62 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:18px}
 <footer>КАР'ЄРНИЙ СИМУЛЯТОР ЧЕМПІОНАТУ УКРАЇНИ · ОДИН HTML-ФАЙЛ · ЗБЕРЕЖЕННЯ У БРАУЗЕРІ</footer>
 
 <script>
-const SAVE_KEY="upl_ukr_career_custom_v6";
-const START_YEAR=1999;
+const SAVE_KEY="upl_ukr_career_2008_v14";
+const START_YEAR=2008;
 const SIZE=16;
 const SECOND_SIZE=12;
 
 const basePremier=[
- ["ДИНАМО КИЇВ","КИЇВ",92,94,96,"ДК","#ffffff","#1354c8",78],
- ["ШАХТАР ДОНЕЦЬК","ДОНЕЦЬК",86,88,88,"ШД","#f37021","#111111",82],
- ["КРИВБАС КРИВИЙ РІГ","КРИВИЙ РІГ",80,66,74,"КР","#b7192b","#ffffff",67],
- ["ВОРСКЛА ПОЛТАВА","ПОЛТАВА",72,58,67,"ВП","#238b45","#ffffff",64],
- ["МЕТАЛУРГ ЗАПОРІЖЖЯ","ЗАПОРІЖЖЯ",73,60,68,"МЗ","#d71920","#111111",63],
- ["МЕТАЛІСТ ХАРКІВ","ХАРКІВ",69,56,70,"МХ","#f2c200","#005bbb",78],
- ["МЕТАЛУРГ ДОНЕЦЬК","ДОНЕЦЬК",77,65,70,"МД","#0b2545","#ffffff",65],
- ["ФК МАРІУПОЛЬ","МАРІУПОЛЬ",68,54,62,"МР","#c1121f","#1354c8",60],
- ["КАРПАТИ ЛЬВІВ","ЛЬВІВ",75,63,76,"КЛ","#1b8a3a","#ffffff",71],
- ["АРСЕНАЛ КИЇВ","КИЇВ",66,48,58,"АК","#ffffff","#c1121f",62],
- ["ДНІПРО ДНІПРОПЕТРОВСЬК","ДНІПРОПЕТРОВСЬК",76,70,78,"ДН","#62b6ff","#ffffff",73],
- ["НИВА ТЕРНОПІЛЬ","ТЕРНОПІЛЬ",67,48,58,"НТ","#1b8a3a","#ffd43b",58],
- ["ТАВРІЯ СІМФЕРОПОЛЬ","СІМФЕРОПОЛЬ",71,57,66,"ТА","#0b64c0","#c1121f",63],
- ["ПРИКАРПАТТЯ ІВАНО-ФРАНКІВСЬК","ІВАНО-ФРАНКІВСЬК",66,47,56,"ПР","#1b8a3a","#ffd43b",57],
- ["ЧОРНОМОРЕЦЬ ОДЕСА","ОДЕСА",70,59,72,"ЧО","#0b64c0","#111111",70],
- ["ЗІРКА КРОПИВНИЦЬКИЙ","КРОПИВНИЦЬКИЙ",65,46,55,"ЗК","#ffd43b","#c1121f",56]
+ ["ДИНАМО КИЇВ","КИЇВ",90,92,95,"ДК","#1354c8","#ffffff",86],
+ ["ШАХТАР ДОНЕЦЬК","ДОНЕЦЬК",91,94,94,"ШД","#f37021","#111111",90],
+ ["МЕТАЛІСТ ХАРКІВ","ХАРКІВ",83,78,82,"МХ","#f2c200","#005bbb",86],
+ ["МЕТАЛУРГ ДОНЕЦЬК","ДОНЕЦЬК",78,68,74,"МД","#ffffff","#0b2545",76],
+ ["ВОРСКЛА ПОЛТАВА","ПОЛТАВА",76,63,70,"ВП","#1b8a3a","#ffffff",74],
+ ["ФК ДНІПРО","ДНІПРОПЕТРОВСЬК",80,76,82,"ДН","#62b6ff","#ffffff",84],
+ ["МЕТАЛУРГ ЗАПОРІЖЖЯ","ЗАПОРІЖЖЯ",72,58,66,"МЗ","#c1121f","#111111",68],
+ ["ЧОРНОМОРЕЦЬ ОДЕСА","ОДЕСА",70,60,72,"ЧО","#0b64c0","#ffffff",74],
+ ["ТАВРІЯ СІМФЕРОПОЛЬ","СІМФЕРОПОЛЬ",73,62,70,"ТА","#0b64c0","#c1121f",72],
+ ["КАРПАТИ ЛЬВІВ","ЛЬВІВ",74,62,76,"КЛ","#1b8a3a","#ffffff",78],
+ ["АРСЕНАЛ КИЇВ","КИЇВ",71,59,67,"АК","#0b64c0","#c1121f",70],
+ ["КРИВБАС КРИВИЙ РІГ","КРИВИЙ РІГ",70,56,65,"КР","#c1121f","#ffffff",68],
+ ["ЗОРЯ ЛУГАНСЬК","ЛУГАНСЬК",69,55,66,"ЗЛ","#ffffff","#111111",78],
+ ["ФК МАРІУПОЛЬ","МАРІУПОЛЬ",68,54,62,"МР","#f37021","#0b64c0",66],
+ ["ФК ЛЬВІВ","ЛЬВІВ",66,50,60,"ЛВ","#6f42c1","#ffffff",70],
+ ["ФК ХАРКІВ","ХАРКІВ",65,49,58,"ХА","#800020","#1b8a3a",68]
 ];
 
 const baseFirst=[
- ["НИВА ВІННИЦЯ","ВІННИЦЯ",58,44,55,"НВ","#1b8a3a","#ffffff",58],
- ["ВОЛИНЬ ЛУЦЬК","ЛУЦЬК",63,50,60,"ВЛ","#ffffff","#c1121f",65],
- ["ГОВЕРЛА УЖГОРОД","УЖГОРОД",61,47,55,"ГО","#ffffff","#62b6ff",60],
- ["ФК ЛЬВІВ","ЛЬВІВ",59,45,55,"ЛВ","#6f42c1","#ffffff",68],
- ["ОБОЛОНЬ КИЇВ","КИЇВ",62,48,58,"ОБ","#2c9a42","#ffffff",72],
- ["ПОЛІССЯ ЖИТОМИР","ЖИТОМИР",58,41,52,"ПО","#1b8a3a","#ffd43b",66],
- ["ПФК ОЛЕКСАНДРІЯ","ОЛЕКСАНДРІЯ",60,45,53,"ОЛ","#ffd43b","#111111",65],
- ["СТАЛЬ АЛЧЕВСЬК","АЛЧЕВСЬК",59,44,52,"СТ","#c1121f","#8d99ae",60],
- ["ДНІПРО ЧЕРКАСИ","ЧЕРКАСИ",57,39,49,"ДЧ","#0b5ed7","#c1121f",56],
- ["ПФК СУМИ","СУМИ",57,40,50,"СУ","#ffffff","#0b5ed7",55],
- ["ФК ХАРКІВ","ХАРКІВ",56,41,50,"ХА","#800020","#1b8a3a",62],
- ["ФК МИКОЛАЇВ","МИКОЛАЇВ",59,42,54,"МК","#0b5ed7","#ffffff",57],
- ["ГЕЛІОС ХАРКІВ","ХАРКІВ",56,40,50,"ГЕ","#c1121f","#ffd43b",58],
- ["НАФТОВИК ОХТИРКА","ОХТИРКА",58,42,53,"НА","#111111","#ffd43b",56],
- ["ЗОРЯ ЛУГАНСЬК","ЛУГАНСЬК",61,48,61,"ЗЛ","#ffffff","#111111",74],
- ["БУКОВИНА ЧЕРНІВЦІ","ЧЕРНІВЦІ",59,43,55,"БУ","#ffd43b","#111111",58]
+ ["ГОВЕРЛА УЖГОРОД","УЖГОРОД",64,50,60,"ГО","#ffffff","#62b6ff",68],
+ ["ОБОЛОНЬ","КИЇВ",65,52,62,"ОБ","#2c9a42","#ffffff",72],
+ ["ПФК ОЛЕКСАНДРІЯ","ОЛЕКСАНДРІЯ",63,50,60,"ОЛ","#ffd43b","#1b8a3a",72],
+ ["ПФК СЕВАСТОПОЛЬ","СЕВАСТОПОЛЬ",64,51,61,"СВ","#ffffff","#62b6ff",72],
+ ["ВОЛИНЬ ЛУЦЬК","ЛУЦЬК",65,52,63,"ВЛ","#ffffff","#c1121f",70],
+ ["КРИМТЕПЛИЦЯ СІМФЕРОПОЛЬ","СІМФЕРОПОЛЬ",62,49,58,"КТ","#c1121f","#1b8a3a",68],
+ ["ДЕСНА ЧЕРНІГІВ","ЧЕРНІГІВ",61,47,58,"ДС","#ffffff","#0b64c0",74],
+ ["НАФТОВИК ОХТИРКА","ОХТИРКА",62,49,59,"НА","#111111","#ffd43b",66],
+ ["СК ОДЕСА","ОДЕСА",60,46,55,"СК","#0b64c0","#ffd43b",64],
+ ["СТАЛЬ АЛЧЕВСЬК","АЛЧЕВСЬК",62,49,58,"СТ","#c1121f","#111111",66],
+ ["ЕНЕРГЕТИК БУРШТИН","БУРШТИН",59,45,54,"ЕН","#c1121f","#ffd43b",62],
+ ["ГЕЛІОС ХАРКІВ","ХАРКІВ",60,46,55,"ГЕ","#c1121f","#111111",64],
+ ["ПРИКАРПАТТЯ ІВАНО-ФРАНКІВСЬК","ІВАНО-ФРАНКІВСЬК",59,44,54,"ПР","#1b8a3a","#ffd43b",62],
+ ["ОЛІМПІК ДОНЕЦЬК","ДОНЕЦЬК",58,44,53,"ОЛД","#ffffff","#0b2545",72],
+ ["ЗІРКА КРОПИВНИЦЬКИЙ","КРОПИВНИЦЬКИЙ",58,43,52,"ЗК","#c1121f","#ffd43b",62],
+ ["НИВА ТЕРНОПІЛЬ","ТЕРНОПІЛЬ",57,42,51,"НТ","#1b8a3a","#ffd43b",60]
 ];
 
 const baseSecond=[
- ["АРСЕНАЛ ХАРКІВ","ХАРКІВ",51,34,44,"АХ","#c1121f","#ffffff",58],
- ["ПОДІЛЛЯ ХМЕЛЬНИЦЬКИЙ","ХМЕЛЬНИЦЬКИЙ",56,38,48,"ПД","#0b5ed7","#ffffff",55],
- ["ДЕСНА ЧЕРНІГІВ","ЧЕРНІГІВ",54,35,46,"ДС","#ffffff","#62b6ff",70],
- ["КРИМТЕПЛИЦЯ СІМФЕРОПОЛЬ","СІМФЕРОПОЛЬ",52,36,46,"КТ","#c1121f","#ffffff",62],
- ["ПФК СЕВАСТОПОЛЬ","СЕВАСТОПОЛЬ",53,37,47,"СВ","#62b6ff","#ffffff",66],
- ["ЦСКА КИЇВ","КИЇВ",55,45,57,"ЦК","#0b5ed7","#c1121f",58],
- ["АВАНГАРД КРАМАТОРСЬК","КРАМАТОРСЬК",50,33,42,"АВ","#1b8a3a","#ffd43b",58],
- ["СК ПОЛТАВА","ПОЛТАВА",49,32,41,"СП","#ffffff","#1b8a3a",57],
- ["ФК ОДЕСА","ОДЕСА",50,33,42,"ОД","#111111","#ffffff",60],
- ["КРЕМІНЬ КРЕМЕНЧУК","КРЕМЕНЧУК",56,37,47,"КР","#0b5ed7","#ffffff",55],
- ["ОЛІМПІК ДОНЕЦЬК","ДОНЕЦЬК",51,34,43,"ОЛ","#ffffff","#111111",66],
- ["ЕНЕРГЕТИК БУРШТИН","БУРШТИН",50,32,42,"ЕН","#c1121f","#ffd43b",56]
+ ["ПОЛІССЯ ЖИТОМИР","ЖИТОМИР",54,38,48,"ПО","#1b8a3a","#ffd43b",72],
+ ["ПОДІЛЛЯ ХМЕЛЬНИЦЬКИЙ","ХМЕЛЬНИЦЬКИЙ",55,39,49,"ПД","#ffffff","#0b64c0",62],
+ ["НИВА ВІННИЦЯ","ВІННИЦЯ",54,38,48,"НВ","#1b8a3a","#ffd43b",62],
+ ["ВЕРЕС РІВНЕ","РІВНЕ",53,37,47,"ВЕ","#c1121f","#111111",74],
+ ["КОЛОС КОВАЛІВКА","КОВАЛІВКА",52,36,46,"КО","#111111","#ffffff",78],
+ ["ІНГУЛЕЦЬ ПЕТРОВО","ПЕТРОВО",52,36,46,"ІН","#c1121f","#f37021",76],
+ ["ЛНЗ ЧЕРКАСИ","ЧЕРКАСИ",51,35,45,"ЛНЗ","#ffffff","#6f42c1",74],
+ ["КРЕМІНЬ КРЕМЕНЧУК","КРЕМЕНЧУК",55,40,50,"КР","#0b64c0","#ffffff",62],
+ ["ЦСКА КИЇВ","КИЇВ",54,39,50,"ЦК","#0b64c0","#c1121f",58],
+ ["ПФК СУМИ","СУМИ",53,38,48,"СУ","#ffffff","#0b64c0",60],
+ ["ФК МИКОЛАЇВ","МИКОЛАЇВ",54,39,50,"МК","#ffffff","#0b2545",62],
+ ["БУКОВИНА ЧЕРНІВЦІ","ЧЕРНІВЦІ",53,38,49,"БУ","#ffd43b","#111111",64]
 ];
 
 const regen = [
@@ -520,87 +516,146 @@ function newSeason(){
 
 function resetStats(c){c.played=0;c.wins=0;c.draws=0;c.losses=0;c.gf=0;c.ga=0;c.pts=0;c.form=[];c.scorers=genScorers(c.name)}
 
-
 function develop(arr,lg){
  arr.forEach((c,i)=>{
   const pos=i+1;
+  const leagueCap = lg==="premier" ? 92 : (lg==="first" ? 78 : 68);
+  const softCap = Math.max(leagueCap, c.potential);
   let delta=0;
 
+  // Спортивний результат сезону
   if(lg==="premier"){
-    if(pos===1){delta+=4;c.reputation+=3;c.budget+=4;}
-    else if(pos<=4){delta+=2;c.reputation+=2;c.budget+=1;}
-    else if(pos>=15){delta-=4;c.reputation-=2;}
-    else if(pos>=12){delta-=1;}
+    if(pos===1){delta+=3;c.reputation+=2;c.budget+=2}
+    else if(pos===2){delta+=2;c.reputation+=1;c.budget+=1}
+    else if(pos<=5){delta+=1;c.reputation+=1}
+    else if(pos>=15){delta-=3;c.reputation-=2;c.budget-=1}
+    else if(pos>=12){delta-=1}
+  } else if(lg==="first"){
+    if(pos===1){delta+=2;c.reputation+=1;c.budget+=1}
+    else if(pos===2){delta+=1;c.reputation+=1}
+    else if(pos<=5 && Math.random()<0.45){delta+=1}
+    else if(pos>=15){delta-=2}
+    else if(pos>=12 && Math.random()<0.45){delta-=1}
   } else {
-    if(pos===1){delta+=3;}
-    else if(pos<=2){delta+=2;}
-    else if(pos<=5){delta+=1;}
+    if(pos===1){delta+=2}
+    else if(pos===2 && Math.random()<0.65){delta+=1}
+    else if(pos<=4 && Math.random()<0.30){delta+=1}
+    else if(pos>=10 && Math.random()<0.45){delta-=1}
   }
 
-  const growthChance=Math.max(.10,Math.min(.60,(c.potential-c.rating+40)/100));
-  if(Math.random()<growthChance) delta+=1+Math.floor(Math.random()*3);
+  // Природний прогрес залежить від потенціалу, але слабшає біля стелі
+  const gap = c.potential - c.rating;
+  const growthChance = clamp((gap + 20) / 100, .04, .38);
+  if(gap>0 && Math.random()<growthChance){
+    delta += 1 + (Math.random()<0.10 ? 1 : 0);
+  }
 
-  if(Math.random()<0.08){
-    const jump=5+Math.floor(Math.random()*6);
+  // Регрес сильних клубів, якщо вони вже вище потенціалу
+  if(c.rating > c.potential + 4 && Math.random()<0.45){
+    delta -= 1;
+  }
+  if(c.rating > softCap && Math.random()<0.55){
+    delta -= 1;
+  }
+
+  // Рідкісні події розвитку. Великі бусти стали значно рідшими.
+  if(Math.random()<0.025 && c.rating<82){
+    const jump=3+Math.floor(Math.random()*4);
+    delta+=jump;c.budget+=3;c.reputation+=2;
+    state.logs.offseason.unshift(`<div class="event">💰 <strong>${crestHtml(c)}${c.name}</strong> ОТРИМУЄ БАГАТОГО ВЛАСНИКА: +${jump} ДО РЕЙТИНГУ.</div>`);
+  }
+  if(Math.random()<0.055){
+    const jump=1+Math.floor(Math.random()*3);
     delta+=jump;
-    state.logs.offseason.unshift(`<div class="event">💰 <strong>${c.name}</strong> ОТРИМАВ БАГАТОГО ВЛАСНИКА: +${jump}.</div>`);
+    state.logs.offseason.unshift(`<div class="event">🔄 <strong>${crestHtml(c)}${c.name}</strong> ПРОВІВ ВДАЛУ ТРАНСФЕРНУ КАМПАНІЮ: +${jump}.</div>`);
   }
-
-  if(Math.random()<0.10){
-    const jump=2+Math.floor(Math.random()*4);
+  if(Math.random()<0.040){
+    const jump=1+Math.floor(Math.random()*2);
     delta+=jump;
-    state.logs.offseason.unshift(`<div class="event">🔄 <strong>${c.name}</strong> ПРОВІВ ВДАЛУ ТРАНСФЕРНУ КАМПАНІЮ: +${jump}.</div>`);
+    state.logs.offseason.unshift(`<div class="event">👔 <strong>${crestHtml(c)}${c.name}</strong> ЗАПРОСИВ СИЛЬНОГО ТРЕНЕРА: +${jump}.</div>`);
+  }
+  if(Math.random()<0.045 && c.potential>62){
+    const jump=1+Math.floor(Math.random()*3);
+    delta+=jump;c.potential+=1;
+    state.logs.offseason.unshift(`<div class="event">🌱 <strong>${crestHtml(c)}${c.name}</strong> АКАДЕМІЯ ДАЛА СИЛЬНЕ ПОКОЛІННЯ: +${jump}.</div>`);
+  }
+  if(Math.random()<0.006 && c.rating<86){
+    const jump=5+Math.floor(Math.random()*5);
+    delta+=jump;c.reputation+=3;c.potential+=2;
+    state.logs.offseason.unshift(`<div class="event">⭐ <strong>${crestHtml(c)}${c.name}</strong> З'ЯВИЛАСЯ ЛЕГЕНДА КЛУБУ: +${jump}.</div>`);
   }
 
-  if(Math.random()<0.08){
-    const jump=1+Math.floor(Math.random()*4);
-    delta+=jump;
-    state.logs.offseason.unshift(`<div class="event">👔 <strong>${c.name}</strong> ЗАПРОСИВ ТОП-ТРЕНЕРА: +${jump}.</div>`);
+  // Негативні події залишають чемпіонат живим
+  if(Math.random()<0.045){
+    const loss=2+Math.floor(Math.random()*4);
+    delta-=loss;c.budget-=2;c.reputation-=1;
+    state.logs.offseason.unshift(`<div class="event">📉 <strong>${crestHtml(c)}${c.name}</strong> ФІНАНСОВІ ПРОБЛЕМИ: -${loss}.</div>`);
   }
-
-  if(Math.random()<0.10 && c.potential>60){
-    const jump=2+Math.floor(Math.random()*5);
-    delta+=jump;
-    state.logs.offseason.unshift(`<div class="event">🌱 <strong>${c.name}</strong> ВИРОСТИВ ЗОЛОТЕ ПОКОЛІННЯ: +${jump}.</div>`);
-  }
-
-  if(Math.random()<0.02){
-    const jump=8+Math.floor(Math.random()*8);
-    delta+=jump;
-    state.logs.offseason.unshift(`<div class="event">⭐ <strong>${c.name}</strong> НАРОДИЛАСЯ ЛЕГЕНДА КЛУБУ: +${jump}.</div>`);
-  }
-
-  if(Math.random()<0.06){
-    const loss=3+Math.floor(Math.random()*6);
+  if(Math.random()<0.060){
+    const loss=1+Math.floor(Math.random()*4);
     delta-=loss;
-    state.logs.offseason.unshift(`<div class="event">📉 <strong>${c.name}</strong> ФІНАНСОВА КРИЗА: -${loss}.</div>`);
+    state.logs.offseason.unshift(`<div class="event">🚑 <strong>${crestHtml(c)}${c.name}</strong> ВТРАТИВ КЛЮЧОВИХ ГРАВЦІВ: -${loss}.</div>`);
+  }
+  if(c.rating>84 && Math.random()<0.22){
+    delta-=1+Math.floor(Math.random()*2);
+    state.logs.offseason.unshift(`<div class="event">⚠️ <strong>${crestHtml(c)}${c.name}</strong> ПРОХОДИТЬ ОНОВЛЕННЯ СКЛАДУ.</div>`);
   }
 
-  if(Math.random()<0.08){
-    const loss=2+Math.floor(Math.random()*5);
-    delta-=loss;
-    state.logs.offseason.unshift(`<div class="event">🚑 <strong>${c.name}</strong> ВТРАТИВ ЛІДЕРІВ: -${loss}.</div>`);
-  }
+  // Стримування рейтингу: після 80 рости важче, після 88 дуже важко
+  if(c.rating>=80 && delta>0 && Math.random()<0.35) delta-=1;
+  if(c.rating>=88 && delta>0 && Math.random()<0.65) delta-=1;
 
-  c.rating=Math.max(40,Math.min(96,c.rating+delta));
-  c.potential=Math.max(35,Math.min(95,c.potential+(Math.random()<0.3?1:0)));
+  c.rating=clamp(c.rating+delta,40,96);
+  c.budget=clamp(c.budget,25,99);
+  c.reputation=clamp(c.reputation,25,99);
+
+  // Потенціал майже не роздувається, іноді падає
+  c.potential=clamp(c.potential + (Math.random()<0.12?1:0) - (Math.random()<0.18?1:0),35,94);
  });
 }
-
 
 function preseason(){
  const all=Object.values(state.leagues).flat();
  all.forEach(c=>{
   const r=Math.random();
   let txt="";
-  if(r<.14){let g=1+Math.floor(Math.random()*3);c.rating+=g;txt=`${crestHtml(c)}${c.name} ПІДСИЛИВ СКЛАД: +${g} ДО РЕЙТИНГУ.`}
-  else if(r<.25){let l=1+Math.floor(Math.random()*2);c.rating-=l;txt=`${crestHtml(c)}${c.name} ВТРАТИВ ЛІДЕРА: -${l} ДО РЕЙТИНГУ.`}
-  else if(r<.35){c.budget+=2;c.potential+=1;txt=`${crestHtml(c)}${c.name} ОТРИМАВ НОВОГО СПОНСОРА: БЮДЖЕТ +2.`}
-  else if(r<.42 && c.rating<78){c.rating+=2;c.potential+=2;txt=`${crestHtml(c)}${c.name} ЗАПУСТИВ ДОВГОСТРОКОВИЙ ПРОЄКТ: +2 ДО РЕЙТИНГУ.`}
-  c.rating=clamp(c.rating,40,96); c.budget=clamp(c.budget,25,99); c.potential=clamp(c.potential,35,95);
+  let delta=0;
+
+  if(r<.08){
+    let g=1+Math.floor(Math.random()*2);
+    delta+=g;
+    txt=`${crestHtml(c)}${c.name} ПІДСИЛИВ СКЛАД: +${g} ДО РЕЙТИНГУ.`;
+  }
+  else if(r<.16){
+    let l=1+Math.floor(Math.random()*3);
+    delta-=l;
+    txt=`${crestHtml(c)}${c.name} ВТРАТИВ ЛІДЕРА: -${l} ДО РЕЙТИНГУ.`;
+  }
+  else if(r<.23){
+    c.budget+=1;
+    if(Math.random()<0.35 && c.rating<76){delta+=1}
+    txt=`${crestHtml(c)}${c.name} ОТРИМАВ СПОНСОРСЬКУ ПІДТРИМКУ.`;
+  }
+  else if(r<.28 && c.rating<72){
+    delta+=1;
+    c.potential+=1;
+    txt=`${crestHtml(c)}${c.name} ЗАПУСТИВ ДОВГОСТРОКОВИЙ ПРОЄКТ: +1 ДО РЕЙТИНГУ.`;
+  }
+
+  // Ринкова корекція: у слабших лігах важче тримати надто високий рейтинг
+  const leagueCap = c.league==="premier" ? 92 : (c.league==="first" ? 78 : 68);
+  if(c.rating>leagueCap && Math.random()<0.45){
+    delta-=1+Math.floor(Math.random()*2);
+  }
+
+  c.rating=clamp(c.rating+delta,40,96);
+  c.budget=clamp(c.budget,25,99);
+  c.potential=clamp(c.potential,35,94);
+
   if(txt){
     const e=`<div class="event"><strong>${season()}</strong>: ${txt}</div>`;
-    state.logs.events.unshift(e); state.logs.offseason.unshift(e);
+    state.logs.events.unshift(e);
+    state.logs.offseason.unshift(e);
   }
  });
 }
@@ -626,7 +681,7 @@ function drawLeague(lg,id){
  const arr=table(lg);
  let html="<thead><tr><th>#</th><th>КОМАНДА</th><th>І</th><th>В</th><th>Н</th><th>П</th><th>ГЗ</th><th>ГП</th><th>РГ</th><th>О</th><th>ФОРМА</th></tr></thead><tbody>";
  arr.forEach((c,i)=>{
-  const zone=lg==="premier"?(i===0?"zoneChamp":i<5?"zoneEuro":i>13?"zoneRel":""):(i<2?"zoneEuro":(lg==="first"&&i>13?"zoneRel":""));
+  const zone=lg==="premier"?(i===0?"zoneUCL":i===1?"zoneUCLQ":i>=2&&i<=4?"zoneUEL":i>13?"zoneRel":""):(i<2?"zoneEuro":(lg==="first"&&i>13?"zoneRel":""));
   html+=`<tr class="${zone}"><td>${i+1}</td><td class="team">${crestHtml(c)}${c.name}</td><td>${c.played}</td><td>${c.wins}</td><td>${c.draws}</td><td>${c.losses}</td><td>${c.gf}</td><td>${c.ga}</td><td>${c.gf-c.ga}</td><td><b>${c.pts}</b></td><td>${form(c.form)}</td></tr>`;
  });
  document.getElementById(id).innerHTML=html+"</tbody>";
@@ -697,7 +752,7 @@ function drawArchive(){
  drawMedals(); drawAllTime();
  const box=document.getElementById("archiveSeasons");
  if(!state.archive.length){box.innerHTML="<p class='sub'>ЩЕ НЕМАЄ ЗАВЕРШЕНИХ СЕЗОНІВ.</p>";return}
- box.innerHTML=state.archive.map(a=>`<div class="archiveCard"><h3>${a.season} — <span class="gold">${a.champion}</span></h3><p><b>ТОП-4:</b> ${a.top4.join(", ")}</p><p><b>ВИЛЕТІЛИ:</b> ${a.relegated.join(", ")}</p><p><b>ВИЙШЛИ В УПЛ:</b> ${a.promoted.join(", ")}</p><details><summary>ТАБЛИЦЯ СЕЗОНУ</summary><table><thead><tr><th>#</th><th>КОМАНДА</th><th>І</th><th>В</th><th>Н</th><th>П</th><th>ГЗ</th><th>ГП</th><th>О</th></tr></thead><tbody>${a.premier.map(r=>`<tr><td>${r.pos}</td><td class="team">${crestHtml(r)}${r.name}</td><td>${r.played}</td><td>${r.wins}</td><td>${r.draws}</td><td>${r.losses}</td><td>${r.gf}</td><td>${r.ga}</td><td><b>${r.pts}</b></td></tr>`).join("")}</tbody></table></details></div>`).join("");
+ box.innerHTML=state.archive.map(a=>`<div class="archiveCard"><h3>${a.season} — <span class="gold">${a.champion}</span></h3><p><b>ТОП-4:</b> ${a.top4.join(", ")}</p><p><b>ВИЛЕТІЛИ:</b> ${a.relegated.join(", ")}</p><p><b>ВИЙШЛИ В УПЛ:</b> ${a.promoted.join(", ")}</p><details><summary>ТАБЛИЦЯ СЕЗОНУ</summary><table><thead><tr><th>#</th><th>КОМАНДА</th><th>І</th><th>В</th><th>Н</th><th>П</th><th>ГЗ</th><th>ГП</th><th>О</th></tr></thead><tbody>${a.premier.map(r=>`<tr><td>${r.pos}</td><td class="team"><span class="crest" style="background:linear-gradient(145deg,${r.c1} 0 48%,${r.c2} 48% 100%)"><span class="crestText">${r.abbr}</span></span>${r.name}</td><td>${r.played}</td><td>${r.wins}</td><td>${r.draws}</td><td>${r.losses}</td><td>${r.gf}</td><td>${r.ga}</td><td><b>${r.pts}</b></td></tr>`).join("")}</tbody></table></details></div>`).join("");
 }
 function drawMedals(){
  const map={};
